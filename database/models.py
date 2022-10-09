@@ -100,3 +100,48 @@ class Portion(BaseModel):
     def title(self):
         return f"{self.product.name} - {self.value} {self.unit.name}"
 
+
+    class Unit(BaseModel):
+    __tablename__ = "units"
+
+    name = Column(String(100), nullable=False, unique=True, )
+
+    portions = relationship("Portion", back_populates="unit", )
+
+
+class Product(BaseModel):
+    __tablename__ = "products"
+
+    name = Column(String(100), nullable=False, unique=True, )
+    protein = Column(Float, nullable=False, )
+    fat = Column(Float, nullable=False, )
+    carbohydrates = Column(Float, nullable=False, )
+    calories = Column(Float, nullable=False, )
+
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, )
+    user = relationship("User", back_populates="products", )
+
+    portions = relationship("Portion", back_populates="product", )
+
+    def __repr__(self):
+        return self.title
+
+    def add_portion(self, portion: Portion) -> None:
+        portion.user_id = self.user_id
+        if portion not in self.portions:
+            self.portions.append(portion)
+
+    def create_portion(self, value: float, unit_id: int) -> Portion:
+        portion = Portion(
+            value=value,
+            unit_id=unit_id,
+            user_id=self.user_id,
+            product_id=self.id,
+        )
+        return portion
+
+    @property
+    def title(self):
+        return f"{self.id} - {self.name} {self.protein}/{self.fat}/{self.carbohydrates} ({int(self.calories)})"
+
+    
