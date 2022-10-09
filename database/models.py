@@ -73,3 +73,30 @@ class Dish(BaseModel):
         if portion not in self.portions.all():
             self.portions.append(portion)
 
+
+class Portion(BaseModel):
+    __tablename__ = "portions"
+    __table_args__ = (UniqueConstraint('user_id', 'product_id', "unit_id", "value", name='_user_product_unit_value_uc'), )
+
+    value = Column(Float, nullable=False, )
+
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, )
+    user = relationship("User", back_populates="portions", )
+
+    product_id = Column(Integer, ForeignKey("products.id"), nullable=False, )
+    product = relationship("Product", back_populates="portions")
+
+    unit_id = Column(Integer, ForeignKey("units.id"), nullable=False, )
+    unit = relationship("Unit", back_populates="portions", )
+
+    dishes = relationship(
+        "Dish",
+        secondary=t_connect_dish_portion,
+        back_populates="portions",
+        lazy="dynamic",
+    )
+
+    @property
+    def title(self):
+        return f"{self.product.name} - {self.value} {self.unit.name}"
+
