@@ -12,8 +12,8 @@ from .connect_tables import (
 )
 from .mixins import (
     NutritionCalculableMixin,
-    RefUserMixin,
     round_nutrition_value,
+    UserIdTitleUCMixin,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -22,19 +22,11 @@ if TYPE_CHECKING:  # pragma: no cover
     from src.api.models.user import User
 
 
-class Dish(RefUserMixin, NutritionCalculableMixin, Base):
-    __tablename__ = "dish"
-    __table_args__ = (
-        UniqueConstraint(
-            "user_id",
-            "title",
-            name=f"_{__tablename__}_user_id_title_uc",
-        ),
-    )
+class Dish(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="dishes")
     title: Mapped[str]
-    description: Mapped[str | None]
+
     # TODO add category for dishes
 
     portions: Mapped[list[Portion]] = relationship(

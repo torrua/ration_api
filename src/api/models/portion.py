@@ -5,14 +5,14 @@ from typing import TYPE_CHECKING
 from sqlalchemy import UniqueConstraint, ForeignKey
 from sqlalchemy import event
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import relationship, Mapped, mapped_column, declared_attr
 
 from .base import Base
 from .connect_tables import t_connect_dish_portion
 from .mixins import (
     NutritionCalculableMixin,
     RefUserMixin,
-    round_nutrition_value,
+    round_nutrition_value, UserIdTitleUCMixin,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -22,21 +22,23 @@ if TYPE_CHECKING:  # pragma: no cover
     from .dish import Dish
 
 
-class Portion(RefUserMixin, NutritionCalculableMixin, Base):
-    __tablename__ = "portion"
-    __table_args__ = (
-        UniqueConstraint(
-            "user_id",
-            "product_id",
-            "unit_id",
-            "value",
-            name=f"_{__tablename__}_user_id_product_id_unit_id_value_uc",
-        ),
-    )
+class Portion(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
+
+    @declared_attr
+    def __table_args__(self):
+        return (
+            UniqueConstraint(
+                "user_id",
+                "product_id",
+                "unit_id",
+                "value",
+                name=f"_{self.__name__}_user_id_product_id_unit_id_value_uc",
+            ),
+        )
+
     user: Mapped[User] = relationship(back_populates="portions")
 
     value: Mapped[float]
-    description: Mapped[str | None]
     is_fixed: Mapped[bool] = mapped_column(default=False)
 
     unit_id: Mapped[int] = mapped_column(ForeignKey("unit.id"))

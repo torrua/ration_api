@@ -3,11 +3,11 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, DateTime, event, UniqueConstraint
+from sqlalchemy import ForeignKey, DateTime, event
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from .base import Base
-from .mixins import RefUserMixin
+from .mixins import UserIdTitleUCMixin
 
 if TYPE_CHECKING:  # pragma: no cover
     from .trip import Trip
@@ -17,26 +17,16 @@ if TYPE_CHECKING:  # pragma: no cover
     from .portion import Portion
 
 
-class Mealtime(RefUserMixin, Base):
+class Mealtime(UserIdTitleUCMixin, Base):
     """
     Прием пищи с привязкой к категории и времени.
     Это необходимо, потому что один прием пищи может быть в разных категориях,
     например, та же гречка с тушенкой может быть как на завтрак, так и на ужин.
     """
 
-    __tablename__ = "mealtime"
-    __table_args__ = (
-        UniqueConstraint(
-            "user_id",
-            "title",
-            name=f"_{__tablename__}_user_id_title_uc",
-        ),
-    )
-
     user: Mapped[User] = relationship(back_populates="mealtimes")
 
     title: Mapped[str]
-    description: Mapped[str | None]
 
     trip_id: Mapped[int] = mapped_column(ForeignKey("trip.id"))
     trip: Mapped[Trip] = relationship(back_populates="mealtimes")

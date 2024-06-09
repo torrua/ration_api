@@ -11,7 +11,7 @@ from .connect_tables import t_connect_trip_participant
 from .mixins import (
     NutritionCalculableMixin,
     RefUserMixin,
-    round_nutrition_value,
+    round_nutrition_value, UserIdTitleUCMixin,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -21,25 +21,16 @@ if TYPE_CHECKING:  # pragma: no cover
     from .portion import Portion
 
 
-class Trip(RefUserMixin, NutritionCalculableMixin, Base):
+class Trip(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
     """
     Фактически путешествие в разрезе продуктовой раскладки это
     отсортированный по времени перечень приемов пищи с учетом
     количества и типа участников.
     """
 
-    __tablename__ = "trip"
-    __table_args__ = (
-        UniqueConstraint(
-            "user_id",
-            "title",
-            name=f"_{__tablename__}_user_id_title_uc",
-        ),
-    )
     user: Mapped[User] = relationship(back_populates="trips")
 
     title: Mapped[str]
-    description: Mapped[str | None]
 
     mealtimes: Mapped[list[Mealtime]] = relationship(
         back_populates="trip",

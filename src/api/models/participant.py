@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from sqlalchemy import UniqueConstraint
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, declared_attr
 
 from .base import Base
 from .connect_tables import t_connect_trip_participant
@@ -16,19 +16,14 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Participant(RefUserMixin, Base):
     # TODO При создании нового пользователя добавлять стандартного участника
-    __tablename__ = "participant"
-    __table_args__ = (
-        UniqueConstraint(
-            "user_id",
-            "title",
-            name=f"_{__tablename__}_user_id_title_uc",
-        ),
-    )
+
+    @declared_attr
+    def __table_args__(self):
+        return (UniqueConstraint("user_id", "name", name=f"_{self.__name__}_user_id_name_uc", ),)
+
     user: Mapped[User] = relationship(back_populates="participants")
 
-    title: Mapped[str]
-    description: Mapped[str | None]
-
+    name: Mapped[str]
     coefficient: Mapped[float] = mapped_column(default=1.0)
 
     trips: Mapped[list[Trip]] = relationship(

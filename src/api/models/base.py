@@ -1,13 +1,13 @@
 """
 Initial common functions for Model Classes
 """
-
 from __future__ import annotations
+import re
 
 from datetime import datetime
 
 from sqlalchemy import func
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr
 
 
 class Base(DeclarativeBase):
@@ -51,6 +51,17 @@ class Base(DeclarativeBase):
 
     :type: datetime
     """
+
+    description: Mapped[str | None]
+    """
+    A class attribute mapped to a column in the database table. It represents
+    a description of the object. It can be ``null``.
+    """
+
+    @declared_attr
+    def __tablename__(self):
+        pattern = re.compile(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])")
+        return pattern.sub('_', self.__name__).lower()
 
     def __repr__(self):
         """

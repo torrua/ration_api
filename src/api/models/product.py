@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy import UniqueConstraint, ForeignKey
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy.orm import relationship, Mapped, mapped_column, declared_attr
 
 from .base import Base
-from .mixins import RefUserMixin
+from .mixins import RefUserMixin, UserIdTitleUCMixin
 from .portion import Portion
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -16,18 +16,19 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class Product(RefUserMixin, Base):
-    __tablename__ = "product"
-    __table_args__ = (
-        UniqueConstraint(
-            "user_id",
-            "name",
-            name=f"_{__tablename__}_user_id_name_uc",
-        ),
-    )
+    @declared_attr
+    def __table_args__(self):
+        return (
+            UniqueConstraint(
+                "user_id",
+                "name",
+                name=f"_{self.__name__}_user_id_name_uc",
+            ),
+        )
+
     user: Mapped[User] = relationship(back_populates="products")
 
     name: Mapped[str]
-    description: Mapped[str | None]
 
     protein: Mapped[float] = mapped_column(default=0)
     fat: Mapped[float] = mapped_column(default=0)
