@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .auth.auth import auth_backend
 from .auth.base_config import fastapi_users
 from .auth.schemas import UserRead, UserCreate
-from .api.routers import user
+from .api.routers import user, product, product_category
 
 
 app = FastAPI(title="HikeFuel")
@@ -27,6 +27,8 @@ origins = [
 ]
 
 app.include_router(user.router)
+app.include_router(product.router)
+app.include_router(product_category.router)
 
 app.add_middleware(
     CORSMiddleware,
