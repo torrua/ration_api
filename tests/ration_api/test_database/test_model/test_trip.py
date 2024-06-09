@@ -40,3 +40,13 @@ class TestTrip:
 
     def test_calories(self, filled_session):
         assert self.trip(filled_session).calories == pytest.approx(2609.88, abs=0.01)
+
+    def test_trip_delete_with_mealtimes(self, filled_session):
+        user = self.trip(filled_session).user
+        mealtimes_before = len(user.mealtimes)
+        trip = self.trip(filled_session)
+        trip_mealtimes = len(trip.mealtimes)
+        filled_session.delete(trip)
+        filled_session.refresh(user)
+        mealtimes_after = len(user.mealtimes)
+        assert mealtimes_after == mealtimes_before - trip_mealtimes
