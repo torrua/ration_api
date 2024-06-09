@@ -1,6 +1,7 @@
 from tests.conftest import *
 from tests.data import first_trip_data
 
+
 def test_create_trip():
     trip = Trip(**first_trip_data)
     assert trip.title == first_trip_data.get("title")
@@ -22,7 +23,7 @@ class TestTrip:
 
     def test_common_coefficient(self, filled_session):
         trip_coefficient = sum(
-            [p.coefficient for p in self.trip(filled_session).relationship_participants]
+            [p.coefficient for p in self.trip(filled_session).participants]
         )
         assert self.trip(filled_session).common_coefficient == pytest.approx(
             trip_coefficient, abs=0.01

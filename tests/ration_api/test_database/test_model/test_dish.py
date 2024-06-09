@@ -24,29 +24,29 @@ class TestDish:
         )
 
     def test_dish_portions(self, filled_session):
-        assert len(self.dish(filled_session).relationship_portions.all()) == 3
+        assert len(self.dish(filled_session).portions) == 3
 
     def test_dish_meals(self, filled_session):
-        assert self.dish(filled_session).relationship_meals[0].title == dinner_meal_data.get("title")
+        assert self.dish(filled_session).meals[0].title == dinner_meal_data.get("title")
 
     def test_dish_calories(self, filled_session):
         assert self.dish(filled_session).calories == sum(
-            [p.calories for p in self.dish(filled_session).relationship_portions]
+            [p.calories for p in self.dish(filled_session).portions]
         )
 
     def test_dish_carbohydrates(self, filled_session):
         assert self.dish(filled_session).carbohydrates == sum(
-            [p.carbohydrates for p in self.dish(filled_session).relationship_portions]
+            [p.carbohydrates for p in self.dish(filled_session).portions]
         )
 
     def test_dish_fat(self, filled_session):
         assert self.dish(filled_session).fat == sum(
-            [p.fat for p in self.dish(filled_session).relationship_portions]
+            [p.fat for p in self.dish(filled_session).portions]
         )
 
     def test_dish_protein(self, filled_session):
         assert self.dish(filled_session).protein == sum(
-            [p.protein for p in self.dish(filled_session).relationship_portions]
+            [p.protein for p in self.dish(filled_session).portions]
         )
 
     def test_dish_is_fixed(self, filled_session):

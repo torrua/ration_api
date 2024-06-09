@@ -142,17 +142,17 @@ def filled_session(db_session_factory):
         portion_lamb,
         portion_sunflower_oil,
     ]
-    dish_rice_with_lamb_oil.relationship_portions.extend(dish_rice_with_lamb_oil_portions)
+    dish_rice_with_lamb_oil.portions.extend(dish_rice_with_lamb_oil_portions)
 
     portion_apple = Portion(product=product_apple, value=200, unit=unit_gr)
     portion_cracker = Portion(product=product_cracker, value=50, unit=unit_gr)
 
     dish_apple_and_crackers_portions = [portion_apple, portion_cracker]
-    dish_apple_and_crackers.relationship_portions.extend(dish_apple_and_crackers_portions)
+    dish_apple_and_crackers.portions.extend(dish_apple_and_crackers_portions)
 
     meal_dinner = Meal(**dinner_meal_data, user=user)
     meal_dinner_dishes = [dish_rice_with_lamb_oil, dish_apple_and_crackers]
-    meal_dinner.relationship_dishes.extend(meal_dinner_dishes)
+    meal_dinner.dishes.extend(meal_dinner_dishes)
 
     mealtime_type_dinner = MealtimeType(**dinner_mealtime_type_data, user=user)
     mealtime_type_breakfast = MealtimeType(**breakfast_mealtime_type_data, user=user)
@@ -168,10 +168,10 @@ def filled_session(db_session_factory):
     portion_sausages = Portion(product=product_sausages, value=100, unit=unit_gr)
 
     dish_eggs_and_sausages_portions = [portion_eggs, portion_sausages]
-    dish_eggs_and_sausages.relationship_portions.extend(dish_eggs_and_sausages_portions)
+    dish_eggs_and_sausages.portions.extend(dish_eggs_and_sausages_portions)
 
     meal_breakfast = Meal(**breakfast_meal_data, user=user)
-    meal_breakfast.relationship_dishes.append(dish_eggs_and_sausages)
+    meal_breakfast.dishes.append(dish_eggs_and_sausages)
 
     mealtime_breakfast = Mealtime(
         **breakfast_mealtime_data,
@@ -187,8 +187,8 @@ def filled_session(db_session_factory):
 
     trip_first = Trip(**first_trip_data, user=user)
     trip_first_mealtimes = [mealtime_breakfast, mealtime_dinner]
-    trip_first.relationship_mealtimes.extend(trip_first_mealtimes)
-    trip_first.relationship_participants.extend(participants)
+    trip_first.mealtimes.extend(trip_first_mealtimes)
+    trip_first.participants.extend(participants)
 
     session_.add(trip_first)
     session_.commit()

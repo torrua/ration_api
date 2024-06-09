@@ -22,7 +22,9 @@ class TestProduct:
         assert self.product(filled_session).__repr__() == (
             "Product(calories=323.0, "
             "carbohydrates=73.7, fat=0.6, "
-            "name='Kpyпa риcoвaя', product_category_id=3, "
+            "name='Kpyпa риcoвaя', "
+            "product_category=ProductCategory(title='Cereal', user_id=1), "
+            "product_category_id=3, "
             "protein=7.0, user_id=1)"
         )
 
@@ -39,3 +41,6 @@ class TestProduct:
 
     def test_user(self, filled_session):
         assert self.product(filled_session).user.first_name == "Alice"
+
+    def test_portions(self, filled_session):
+        assert len(self.product(filled_session).portions) == 1
