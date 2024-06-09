@@ -11,7 +11,7 @@ def test_portion_creation():
     unit_gr = Unit(**gr_data)
     portion = Portion(product=product, unit=unit_gr, value=60)
     assert portion.value == 60
-    assert portion.product.name == rice_data.get("name")
+    assert portion.product.title == rice_data.get("title")
 
 
 @pytest.mark.usefixtures("filled_session")
@@ -20,7 +20,7 @@ class TestPortion:
     def test_portion_category(self, filled_session):
         rice: Product = (
             filled_session.query(Product)
-            .filter(Product.name == rice_data.get("name"))
+            .filter(Product.title == rice_data.get("title"))
             .first()
         )
         portion = (
@@ -28,14 +28,3 @@ class TestPortion:
         )
         assert portion.product_category == rice.product_category
         assert portion.product_category_id == rice.product_category_id
-
-    def test_portion_title(self, filled_session):
-        rice: Product = (
-            filled_session.query(Product)
-            .filter(Product.name == rice_data.get("name"))
-            .first()
-        )
-        portion = (
-            filled_session.query(Portion).filter(Portion.product_id == rice.id).first()
-        )
-        assert portion.title == f"{rice.name} - 60.0 {gr_data.get('name')}"

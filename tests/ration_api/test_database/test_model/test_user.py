@@ -32,7 +32,6 @@ class TestCreateUser:
     def test_attribute_all():
         assert User.attributes_all() == {
             "created_at",
-            "description",
             "email",
             "first_name",
             "hashed_password",
@@ -62,7 +61,6 @@ class TestCreateUser:
             "is_active",
             "first_name",
             "created_at",
-            'description',
             "updated_at",
             "last_name",
             "username",
@@ -88,7 +86,6 @@ class TestCreateUser:
             "is_superuser",
             "mealtime_types",
             "participants",
-            'description',
             "mealtimes",
             "product_categories",
             "units",

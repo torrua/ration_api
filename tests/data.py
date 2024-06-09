@@ -16,35 +16,35 @@ bob_data = {
 }
 
 rice_data = {
-    "name": "Kpyпa риcoвaя",
+    "title": "Kpyпa риcoвaя",
     "protein": 7,
     "fat": 0.6,
     "carbohydrates": 73.7,
     "calories": 323,
 }
 lamb_data = {
-    "name": "Бapaнинa",
+    "title": "Бapaнинa",
     "protein": 16.3,
     "fat": 15.3,
     "carbohydrates": 0,
     "calories": 203,
 }
 apple_data = {
-    "name": "Яблoки",
+    "title": "Яблoки",
     "protein": 0.4,
     "fat": 0,
     "carbohydrates": 11.3,
     "calories": 46,
 }
 egg_data = {
-    "name": "Яйцо",
+    "title": "Яйцо",
     "protein": 12.7,
     "fat": 10.9,
     "carbohydrates": 0.7,
     "calories": 157,
 }
 sausage_data = {
-    "name": "Сосиска",
+    "title": "Сосиска",
     "protein": 11,
     "fat": 23.9,
     "carbohydrates": 0.4,
@@ -52,14 +52,14 @@ sausage_data = {
 }
 
 cracker_data = {
-    "name": "Cyxapи cливoчныe",
+    "title": "Cyxapи cливoчныe",
     "protein": 8.5,
     "fat": 10.6,
     "carbohydrates": 71.3,
     "calories": 397,
 }
 sunflower_oil_data = {
-    "name": "Масло подсолнечное",
+    "title": "Масло подсолнечное",
     "protein": 0,
     "fat": 99.9,
     "carbohydrates": 0,
@@ -139,23 +139,23 @@ first_trip_data = {
 }
 
 ml_data = {
-    "name": "мл.",
+    "title": "мл.",
 }
 gr_data = {
-    "name": "гр.",
+    "title": "гр.",
 }
 ea_data = {
-    "name": "шт.",
+    "title": "шт.",
 }
 child_participant_data = {
-    "name": "Child Participant",
+    "title": "Child Participant",
     "coefficient": 0.6,
 }
 adult_man_participant_data = {
-    "name": "Adult Man Participant",
+    "title": "Adult Man Participant",
     "coefficient": 1,
 }
 adult_woman_participant_data = {
-    "name": "Adult Woman Participant",
+    "title": "Adult Woman Participant",
     "coefficient": 0.8,
 }

@@ -115,16 +115,19 @@ def filled_session(db_session_factory):
     )
 
     portion_rice = Portion(
+        title="rice",
         product=product_rice,
         value=60,
         unit=unit_gr,
     )
     portion_lamb = Portion(
+        title="lamb",
         product=product_lamb,
         value=100,
         unit=unit_gr,
     )
     portion_sunflower_oil = Portion(
+        title="sunflower_oil",
         product=product_sunflower_oil,
         value=5,
         unit=unit_ml,
@@ -144,8 +147,8 @@ def filled_session(db_session_factory):
     ]
     dish_rice_with_lamb_oil.portions.extend(dish_rice_with_lamb_oil_portions)
 
-    portion_apple = Portion(product=product_apple, value=200, unit=unit_gr)
-    portion_cracker = Portion(product=product_cracker, value=50, unit=unit_gr)
+    portion_apple = Portion(title="apple", product=product_apple, value=200, unit=unit_gr)
+    portion_cracker = Portion(title="cracker", product=product_cracker, value=50, unit=unit_gr)
 
     dish_apple_and_crackers_portions = [portion_apple, portion_cracker]
     dish_apple_and_crackers.portions.extend(dish_apple_and_crackers_portions)
@@ -164,8 +167,8 @@ def filled_session(db_session_factory):
         mealtime_type=mealtime_type_dinner,
     )
 
-    portion_eggs = Portion(product=product_eggs, value=60, unit=unit_gr)
-    portion_sausages = Portion(product=product_sausages, value=100, unit=unit_gr)
+    portion_eggs = Portion(title="eggs", product=product_eggs, value=60, unit=unit_gr)
+    portion_sausages = Portion(title="sausages", product=product_sausages, value=100, unit=unit_gr)
 
     dish_eggs_and_sausages_portions = [portion_eggs, portion_sausages]
     dish_eggs_and_sausages.portions.extend(dish_eggs_and_sausages_portions)
