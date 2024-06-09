@@ -3,7 +3,7 @@ from __future__ import annotations
 from functools import wraps
 
 from sqlalchemy import Column, ForeignKey, UniqueConstraint, String
-from sqlalchemy.orm import declarative_mixin, declared_attr
+from sqlalchemy.orm import declarative_mixin, declared_attr, mapped_column
 
 from src.api.models.utils import camel_to_snake
 
@@ -21,11 +21,11 @@ class UserIdTitleUCMixin:
 
     @declared_attr
     def user_id(self):
-        return Column("user_id", ForeignKey("user.id"), nullable=False)
+        return mapped_column("user_id", ForeignKey("user.id"), nullable=False)
 
     @declared_attr
     def title(self):
-        return Column("title", String, nullable=False)
+        return mapped_column("title", String, nullable=False)
 
     @declared_attr
     def description(self):
@@ -33,7 +33,7 @@ class UserIdTitleUCMixin:
         A class attribute mapped to a column in the database table. It represents
         a description of the object. It can be ``null``.
         """
-        return Column("description", String, nullable=True)
+        return mapped_column("description", String, nullable=True)
 
     @declared_attr
     def __table_args__(self):
