@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey, DateTime, event
+from sqlalchemy import ForeignKey, DateTime, event, UniqueConstraint
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from .base import Base
@@ -25,20 +25,28 @@ class Mealtime(RefUserMixin, Base):
     """
 
     __tablename__ = "mealtime"
-    user: Mapped[User] = relationship(back_populates="relationship_mealtimes")
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "title",
+            name=f"_{__tablename__}_user_id_title_uc",
+        ),
+    )
+
+    user: Mapped[User] = relationship(back_populates="mealtimes")
 
     title: Mapped[str]
     description: Mapped[str | None]
 
     trip_id: Mapped[int] = mapped_column(ForeignKey("trip.id"))
-    trip: Mapped[Trip] = relationship(back_populates="relationship_mealtimes")
+    trip: Mapped[Trip] = relationship(back_populates="mealtimes")
 
     meal_id: Mapped[int] = mapped_column(ForeignKey("meal.id"))
-    meal: Mapped[Meal] = relationship(back_populates="relationship_mealtimes")
+    meal: Mapped[Meal] = relationship(back_populates="mealtimes", lazy="joined")
 
     mealtime_type_id: Mapped[int | None] = mapped_column(ForeignKey("mealtime_type.id"))
     mealtime_type: Mapped[MealtimeType] = relationship(
-        back_populates="relationship_mealtimes"
+        back_populates="mealtimes", lazy="joined",
     )
 
     scheduled_at: Mapped[datetime | None] = mapped_column(

@@ -16,14 +16,17 @@ if TYPE_CHECKING:  # pragma: no cover
 class Unit(RefUserMixin, Base):
     __tablename__ = "unit"
     __table_args__ = (
-        UniqueConstraint("name", "user_id", name="_unit_name_user_id_uc"),
+        UniqueConstraint(
+            "user_id",
+            "name",
+            name=f"_{__tablename__}_user_id_name_uc",
+        ),
     )
-    user: Mapped[User] = relationship(back_populates="relationship_units")
+    user: Mapped[User] = relationship(back_populates="units")
 
     name: Mapped[str]
     description: Mapped[str | None]
 
-    relationship_portions: Mapped[list[Portion]] = relationship(
+    portions: Mapped[list[Portion]] = relationship(
         back_populates="unit",
-        lazy="dynamic",
     )

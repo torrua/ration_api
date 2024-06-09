@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime
+from sqlalchemy import DateTime, UniqueConstraint
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .base import Base
@@ -29,41 +29,48 @@ class Trip(RefUserMixin, NutritionCalculableMixin, Base):
     """
 
     __tablename__ = "trip"
-    user: Mapped[User] = relationship(back_populates="relationship_trips")
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "title",
+            name=f"_{__tablename__}_user_id_title_uc",
+        ),
+    )
+    user: Mapped[User] = relationship(back_populates="trips")
 
     title: Mapped[str]
     description: Mapped[str | None]
 
-    relationship_mealtimes: Mapped[list[Mealtime]] = relationship(
+    mealtimes: Mapped[list[Mealtime]] = relationship(
         back_populates="trip",
-        lazy="dynamic",
+        lazy="joined",
     )
 
     started_at: Mapped[datetime | None] = mapped_column((DateTime(timezone=False)))
     ended_at: Mapped[datetime | None] = mapped_column((DateTime(timezone=False)))
 
-    relationship_participants: Mapped[list[Participant]] = relationship(
+    participants: Mapped[list[Participant]] = relationship(
         secondary=t_connect_trip_participant,
-        back_populates="relationship_trips",
-        lazy="dynamic",
+        back_populates="trips",
+        lazy="joined",
     )
 
     @property
     @round_nutrition_value
     def number_of_participants(self) -> int:
-        return self.relationship_participants.count()  # type: ignore
+        return len(self.participants)
 
     @property
     def common_coefficient(self) -> float:
         return sum(
-            participant.coefficient for participant in self.relationship_participants
+            participant.coefficient for participant in self.participants
         )
 
     @property
     @round_nutrition_value
     def portions(self) -> list[Portion]:
         return [
-            portion for meal in self.relationship_mealtimes for portion in meal.portions
+            portion for meal in self.mealtimes for portion in meal.portions
         ]
 
     @property
@@ -83,7 +90,7 @@ class Trip(RefUserMixin, NutritionCalculableMixin, Base):
     @round_nutrition_value
     def fat(self) -> float:
         total_fat = 0
-        for mealtime in self.relationship_mealtimes:
+        for mealtime in self.mealtimes:
             for portion in mealtime.portions:
                 portion_coefficient = (
                     self.number_of_participants
@@ -97,7 +104,7 @@ class Trip(RefUserMixin, NutritionCalculableMixin, Base):
     @round_nutrition_value
     def protein(self) -> float:
         total_protein = 0
-        for mealtime in self.relationship_mealtimes:
+        for mealtime in self.mealtimes:
             for portion in mealtime.portions:
                 portion_coefficient = (
                     self.number_of_participants
@@ -111,7 +118,7 @@ class Trip(RefUserMixin, NutritionCalculableMixin, Base):
     @round_nutrition_value
     def calories(self) -> float:
         total_calories = 0
-        for mealtime in self.relationship_mealtimes:
+        for mealtime in self.mealtimes:
             for portion in mealtime.portions:
                 portion_coefficient = (
                     self.number_of_participants

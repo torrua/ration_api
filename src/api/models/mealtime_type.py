@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import Mapped, relationship
 
 from .base import Base
@@ -18,11 +19,17 @@ class MealtimeType(RefUserMixin, Base):
     """
 
     __tablename__ = "mealtime_type"
-    user: Mapped[User] = relationship(back_populates="relationship_mealtime_types")
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "title",
+            name=f"_{__tablename__}_user_id_title_uc",
+        ),
+    )
+    user: Mapped[User] = relationship(back_populates="mealtime_types")
 
     title: Mapped[str]
     description: Mapped[str | None]
-    relationship_mealtimes: Mapped[list[Mealtime]] = relationship(
+    mealtimes: Mapped[list[Mealtime]] = relationship(
         back_populates="mealtime_type",
-        lazy="dynamic",
     )

@@ -38,29 +38,28 @@ class User(SQLAlchemyBaseUserTable[int], Base):  # type: ignore
     is_superuser: Mapped[bool] = mapped_column(default=False)  # type: ignore
     is_verified: Mapped[bool] = mapped_column(default=False)  # type: ignore
 
-    _relationship_properties: dict[str, Any] = {
+    _properties: dict[str, Any] = {
         "back_populates": __tablename__,
-        "lazy": "dynamic",
     }
-    relationship_product_categories: Mapped[list[ProductCategory]] = relationship(
-        **_relationship_properties
+    product_categories: Mapped[list[ProductCategory]] = relationship(
+        **_properties
     )
-    relationship_meals: Mapped[list[Meal]] = relationship(**_relationship_properties)
-    relationship_dishes: Mapped[list[Dish]] = relationship(**_relationship_properties)
-    relationship_products: Mapped[list[Product]] = relationship(
-        **_relationship_properties
+    meals: Mapped[list[Meal]] = relationship(**_properties)
+    dishes: Mapped[list[Dish]] = relationship(**_properties)
+    products: Mapped[list[Product]] = relationship(
+        **_properties
     )
-    relationship_units: Mapped[list[Unit]] = relationship(**_relationship_properties)
-    relationship_portions: Mapped[list[Portion]] = relationship(
-        **_relationship_properties
+    units: Mapped[list[Unit]] = relationship(**_properties)
+    portions: Mapped[list[Portion]] = relationship(
+        **_properties
     )
-    relationship_trips: Mapped[list[Trip]] = relationship(**_relationship_properties)
-    relationship_mealtimes: Mapped[list[Mealtime]] = relationship(
-        **_relationship_properties
+    trips: Mapped[list[Trip]] = relationship(**_properties)
+    mealtimes: Mapped[list[Mealtime]] = relationship(
+        **_properties
     )
-    relationship_mealtime_types: Mapped[list[MealtimeType]] = relationship(
-        **_relationship_properties
+    mealtime_types: Mapped[list[MealtimeType]] = relationship(
+        **_properties
     )
-    relationship_participants: Mapped[list[Participant]] = relationship(
-        **_relationship_properties
+    participants: Mapped[list[Participant]] = relationship(
+        **_properties
     )

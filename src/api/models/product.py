@@ -18,9 +18,13 @@ if TYPE_CHECKING:  # pragma: no cover
 class Product(RefUserMixin, Base):
     __tablename__ = "product"
     __table_args__ = (
-        UniqueConstraint("name", "user_id", name="_product_name_user_id_uc"),
+        UniqueConstraint(
+            "user_id",
+            "name",
+            name=f"_{__tablename__}_user_id_name_uc",
+        ),
     )
-    user: Mapped[User] = relationship(back_populates="relationship_products")
+    user: Mapped[User] = relationship(back_populates="products")
 
     name: Mapped[str]
     description: Mapped[str | None]
@@ -31,15 +35,15 @@ class Product(RefUserMixin, Base):
     calories: Mapped[float] = mapped_column(default=0)
 
     product_category_id: Mapped[int | None] = mapped_column(
-        ForeignKey("product_category.id")
+        ForeignKey("product_category.id", ondelete='SET NULL')
     )
-    product_category: Mapped[ProductCategory] = relationship(
-        back_populates="relationship_products"
+    product_category: Mapped[ProductCategory | None] = relationship(
+        back_populates="products",
+        lazy="joined",
     )
 
-    relationship_portions: Mapped[list[Portion]] = relationship(
+    portions: Mapped[list[Portion]] = relationship(
         back_populates="product",
-        lazy="dynamic",
     )
 
     @hybrid_property

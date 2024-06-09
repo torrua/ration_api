@@ -30,25 +30,24 @@ class Portion(RefUserMixin, NutritionCalculableMixin, Base):
             "product_id",
             "unit_id",
             "value",
-            name="_user_product_unit_value_uc",
+            name=f"_{__tablename__}_user_id_product_id_unit_id_value_uc",
         ),
     )
-    user: Mapped[User] = relationship(back_populates="relationship_portions")
+    user: Mapped[User] = relationship(back_populates="portions")
 
     value: Mapped[float]
     description: Mapped[str | None]
     is_fixed: Mapped[bool] = mapped_column(default=False)
 
     unit_id: Mapped[int] = mapped_column(ForeignKey("unit.id"))
-    unit: Mapped[Unit] = relationship(back_populates="relationship_portions")
+    unit: Mapped[Unit] = relationship(back_populates="portions", lazy="joined")
 
     product_id: Mapped[int] = mapped_column(ForeignKey("product.id"))
-    product: Mapped[Product] = relationship(back_populates="relationship_portions")
+    product: Mapped[Product] = relationship(back_populates="portions", lazy="joined")
 
-    relationship_dishes: Mapped[list[Dish]] = relationship(
+    dishes: Mapped[list[Dish]] = relationship(
         secondary=t_connect_dish_portion,
-        back_populates="relationship_portions",
-        lazy="dynamic",
+        back_populates="portions",
     )
 
     @property

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import relationship, Mapped
 
 from .base import Base
@@ -17,25 +18,31 @@ if TYPE_CHECKING:  # pragma: no cover
 
 class Meal(RefUserMixin, Base):
     __tablename__ = "meal"
-    user: Mapped[User] = relationship(back_populates="relationship_meals")
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "title",
+            name=f"_{__tablename__}_user_id_title_uc",
+        ),
+    )
+    user: Mapped[User] = relationship(back_populates="meals")
 
     title: Mapped[str]
     description: Mapped[str | None]
 
-    relationship_dishes: Mapped[list[Dish]] = relationship(
+    dishes: Mapped[list[Dish]] = relationship(
         secondary=t_connect_meal_dish,
-        back_populates="relationship_meals",
-        lazy="dynamic",
+        back_populates="meals",
+        lazy="joined",
     )
-    relationship_mealtimes: Mapped[list[Mealtime]] = relationship(
+    mealtimes: Mapped[list[Mealtime]] = relationship(
         back_populates="meal",
-        lazy="dynamic",
     )
 
     @property
     def portions(self) -> list[Portion]:
         return [
             portion
-            for dish in self.relationship_dishes
-            for portion in dish.relationship_portions
+            for dish in self.dishes
+            for portion in dish.portions
         ]

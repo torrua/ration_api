@@ -22,7 +22,7 @@ class RefUserMixin:  # pylint: disable=R0903
         return Column("user_id", ForeignKey("user.id"), nullable=False)
 
 
-class WeightCalculableMixin:
+class WeightCalculableMixin:  # pylint: disable=R0903
 
     weight: float
 

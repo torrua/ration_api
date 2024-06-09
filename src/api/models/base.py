@@ -112,11 +112,3 @@ class Base(DeclarativeBase):
             for attr in self.attributes_basic()
             if self.check_attribute(attr) and getattr(self, attr)
         }
-
-    @classmethod
-    def create_all(cls, engine):
-        cls.metadata.create_all(engine)
-
-    @classmethod
-    def drop_all(cls, engine):
-        cls.metadata.drop_all(engine)
