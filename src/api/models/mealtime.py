@@ -31,9 +31,12 @@ class Mealtime(UserIdTitleUCMixin, Base):
     meal_id: Mapped[int] = mapped_column(ForeignKey("meal.id"))
     meal: Mapped[Meal] = relationship(back_populates="mealtimes", lazy="joined")
 
-    mealtime_type_id: Mapped[int | None] = mapped_column(ForeignKey("mealtime_type.id"))
-    mealtime_type: Mapped[MealtimeType] = relationship(
-        back_populates="mealtimes", lazy="joined",
+    mealtime_type_id: Mapped[int | None] = mapped_column(
+        ForeignKey("mealtime_type.id", ondelete="SET NULL"),
+    )
+    mealtime_type: Mapped[MealtimeType | None] = relationship(
+        back_populates="mealtimes",
+        lazy="joined",
     )
 
     scheduled_at: Mapped[datetime | None] = mapped_column(

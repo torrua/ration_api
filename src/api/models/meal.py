@@ -30,8 +30,4 @@ class Meal(UserIdTitleUCMixin, Base):
 
     @property
     def portions(self) -> list[Portion]:
-        return [
-            portion
-            for dish in self.dishes
-            for portion in dish.portions
-        ]
+        return [portion for dish in self.dishes for portion in dish.portions]

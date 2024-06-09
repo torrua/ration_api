@@ -24,7 +24,7 @@ class Product(UserIdTitleUCMixin, Base):
     calories: Mapped[float] = mapped_column(default=0)
 
     product_category_id: Mapped[int | None] = mapped_column(
-        ForeignKey("product_category.id", ondelete='SET NULL')
+        ForeignKey("product_category.id", ondelete="SET NULL")
     )
     product_category: Mapped[ProductCategory | None] = relationship(
         back_populates="products",

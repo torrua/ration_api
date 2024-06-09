@@ -41,25 +41,13 @@ class User(SQLAlchemyBaseUserTable[int], Base):  # type: ignore
     _properties: dict[str, Any] = {
         "back_populates": __tablename__,
     }
-    product_categories: Mapped[list[ProductCategory]] = relationship(
-        **_properties
-    )
+    product_categories: Mapped[list[ProductCategory]] = relationship(**_properties)
     meals: Mapped[list[Meal]] = relationship(**_properties)
     dishes: Mapped[list[Dish]] = relationship(**_properties)
-    products: Mapped[list[Product]] = relationship(
-        **_properties
-    )
+    products: Mapped[list[Product]] = relationship(**_properties)
     units: Mapped[list[Unit]] = relationship(**_properties)
-    portions: Mapped[list[Portion]] = relationship(
-        **_properties
-    )
+    portions: Mapped[list[Portion]] = relationship(**_properties)
     trips: Mapped[list[Trip]] = relationship(**_properties)
-    mealtimes: Mapped[list[Mealtime]] = relationship(
-        **_properties
-    )
-    mealtime_types: Mapped[list[MealtimeType]] = relationship(
-        **_properties
-    )
-    participants: Mapped[list[Participant]] = relationship(
-        **_properties
-    )
+    mealtimes: Mapped[list[Mealtime]] = relationship(**_properties)
+    mealtime_types: Mapped[list[MealtimeType]] = relationship(**_properties)
+    participants: Mapped[list[Participant]] = relationship(**_properties)

@@ -10,7 +10,8 @@ from .base import Base
 from .connect_tables import t_connect_dish_portion
 from .mixins import (
     NutritionCalculableMixin,
-    round_nutrition_value, UserIdTitleUCMixin,
+    round_nutrition_value,
+    UserIdTitleUCMixin,
 )
 
 if TYPE_CHECKING:  # pragma: no cover

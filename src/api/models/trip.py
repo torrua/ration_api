@@ -10,7 +10,8 @@ from .base import Base
 from .connect_tables import t_connect_trip_participant
 from .mixins import (
     NutritionCalculableMixin,
-    round_nutrition_value, UserIdTitleUCMixin,
+    round_nutrition_value,
+    UserIdTitleUCMixin,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -29,10 +30,10 @@ class Trip(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="trips")
 
-
     mealtimes: Mapped[list[Mealtime]] = relationship(
         back_populates="trip",
         lazy="joined",
+        cascade="all, delete-orphan",
     )
 
     started_at: Mapped[datetime | None] = mapped_column((DateTime(timezone=False)))
@@ -51,16 +52,12 @@ class Trip(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
 
     @property
     def common_coefficient(self) -> float:
-        return sum(
-            participant.coefficient for participant in self.participants
-        )
+        return sum(participant.coefficient for participant in self.participants)
 
     @property
     @round_nutrition_value
     def portions(self) -> list[Portion]:
-        return [
-            portion for meal in self.mealtimes for portion in meal.portions
-        ]
+        return [portion for meal in self.mealtimes for portion in meal.portions]
 
     @property
     @round_nutrition_value
