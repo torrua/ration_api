@@ -140,13 +140,21 @@ first_trip_data = {
 
 ml_data = {
     "title": "мл.",
+    "ratio_gr": 1.0,
 }
 gr_data = {
     "title": "гр.",
+    "ratio_gr": 1.0,
 }
-ea_data = {
-    "title": "шт.",
+kg_data = {
+    "title": "кг.",
+    "ratio_gr": 1000.0,
 }
+oz_data = {
+    "title": "oz.",
+    "ratio_gr": 28.3495,
+}
+
 child_participant_data = {
     "title": "Child Participant",
     "coefficient": 0.6,
