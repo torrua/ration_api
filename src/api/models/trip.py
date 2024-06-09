@@ -3,14 +3,13 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import DateTime, UniqueConstraint
+from sqlalchemy import DateTime
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .base import Base
 from .connect_tables import t_connect_trip_participant
 from .mixins import (
     NutritionCalculableMixin,
-    RefUserMixin,
     round_nutrition_value, UserIdTitleUCMixin,
 )
 
@@ -30,7 +29,6 @@ class Trip(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="trips")
 
-    title: Mapped[str]
 
     mealtimes: Mapped[list[Mealtime]] = relationship(
         back_populates="trip",

@@ -2,16 +2,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import UniqueConstraint, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy import event
-from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship, Mapped, mapped_column, declared_attr
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .base import Base
 from .connect_tables import t_connect_dish_portion
 from .mixins import (
     NutritionCalculableMixin,
-    RefUserMixin,
     round_nutrition_value, UserIdTitleUCMixin,
 )
 
@@ -23,18 +21,6 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class Portion(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
-
-    @declared_attr
-    def __table_args__(self):
-        return (
-            UniqueConstraint(
-                "user_id",
-                "product_id",
-                "unit_id",
-                "value",
-                name=f"_{self.__name__}_user_id_product_id_unit_id_value_uc",
-            ),
-        )
 
     user: Mapped[User] = relationship(back_populates="portions")
 
@@ -59,10 +45,6 @@ class Portion(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
     @property
     def product_category_id(self):
         return self.product.product_category_id
-
-    @hybrid_property
-    def title(self):
-        return f"{self.product.name} - {self.value} {self.unit.name}"
 
     @property
     @round_nutrition_value

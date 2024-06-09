@@ -7,7 +7,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship, Mapped, mapped_column, declared_attr
 
 from .base import Base
-from .mixins import RefUserMixin, UserIdTitleUCMixin
+from .mixins import UserIdTitleUCMixin
 from .portion import Portion
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -15,20 +15,9 @@ if TYPE_CHECKING:  # pragma: no cover
     from .user import User
 
 
-class Product(RefUserMixin, Base):
-    @declared_attr
-    def __table_args__(self):
-        return (
-            UniqueConstraint(
-                "user_id",
-                "name",
-                name=f"_{self.__name__}_user_id_name_uc",
-            ),
-        )
+class Product(UserIdTitleUCMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="products")
-
-    name: Mapped[str]
 
     protein: Mapped[float] = mapped_column(default=0)
     fat: Mapped[float] = mapped_column(default=0)
@@ -47,13 +36,9 @@ class Product(RefUserMixin, Base):
         back_populates="product",
     )
 
-    @hybrid_property
-    def title(self) -> str:
+    def __str__(self) -> str:
         return (
-            f"#{self.id or ''} {self.name} "
+            f"#{self.id or ''} {self.title} "
             f"{self.protein:.1f}/{self.fat:.1f}/{self.carbohydrates:.1f} "
             f"({self.calories:.1f})"
         )
-
-    def __str__(self) -> str:
-        return str(self.title)

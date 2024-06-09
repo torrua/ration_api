@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from functools import wraps
 
-from sqlalchemy import Column, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import declarative_mixin, declared_attr, Mapped
+from sqlalchemy import Column, ForeignKey, UniqueConstraint, String
+from sqlalchemy.orm import declarative_mixin, declared_attr
+
+from src.api.models.utils import camel_to_snake
 
 
-class NutritionCalculableMixin:
+class NutritionCalculableMixin:  # pylint: disable=R0903
 
     calories: float
     protein: float
@@ -15,15 +17,23 @@ class NutritionCalculableMixin:
 
 
 @declarative_mixin
-class RefUserMixin:  # pylint: disable=R0903
+class UserIdTitleUCMixin:
 
     @declared_attr
     def user_id(self):
         return Column("user_id", ForeignKey("user.id"), nullable=False)
 
+    @declared_attr
+    def title(self):
+        return Column("title", String, nullable=False)
 
-@declarative_mixin
-class UserIdTitleUCMixin(RefUserMixin):  # pylint: disable=R0903
+    @declared_attr
+    def description(self):
+        """
+        A class attribute mapped to a column in the database table. It represents
+        a description of the object. It can be ``null``.
+        """
+        return Column("description", String, nullable=True)
 
     @declared_attr
     def __table_args__(self):
@@ -31,7 +41,7 @@ class UserIdTitleUCMixin(RefUserMixin):  # pylint: disable=R0903
             UniqueConstraint(
                 "user_id",
                 "title",
-                name=f"_{self.__name__.lower()}_user_id_title_uc",
+                name=f"_{camel_to_snake(self.__name__)}_user_id_title_uc",
             ),
         )
 

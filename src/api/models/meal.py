@@ -19,8 +19,6 @@ class Meal(UserIdTitleUCMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="meals")
 
-    title: Mapped[str]
-
     dishes: Mapped[list[Dish]] = relationship(
         secondary=t_connect_meal_dish,
         back_populates="meals",

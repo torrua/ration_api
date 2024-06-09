@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import relationship, Mapped
 
 from .base import Base
@@ -25,9 +24,6 @@ if TYPE_CHECKING:  # pragma: no cover
 class Dish(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="dishes")
-    title: Mapped[str]
-
-    # TODO add category for dishes
 
     portions: Mapped[list[Portion]] = relationship(
         secondary=t_connect_dish_portion,

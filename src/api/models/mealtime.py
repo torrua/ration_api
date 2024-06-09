@@ -25,9 +25,6 @@ class Mealtime(UserIdTitleUCMixin, Base):
     """
 
     user: Mapped[User] = relationship(back_populates="mealtimes")
-
-    title: Mapped[str]
-
     trip_id: Mapped[int] = mapped_column(ForeignKey("trip.id"))
     trip: Mapped[Trip] = relationship(back_populates="mealtimes")
 
