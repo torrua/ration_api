@@ -12,7 +12,6 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
-    id: int
     first_name: str | None
     last_name: str | None
     username: str | None
@@ -20,6 +19,3 @@ class User(UserBase):
     is_active: bool
     is_superuser: bool
     is_verified: bool
-
-    class Config:
-        orm_mode = True
