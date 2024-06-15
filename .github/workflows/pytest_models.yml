@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-tests.txt
       - name: Run tests and collect coverage
-        run: pytest --cov app ${{ env.CODECOV_ATS_TESTS }}
+        run: pytest --cov src/api/models ${{ env.CODECOV_ATS_TESTS }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
