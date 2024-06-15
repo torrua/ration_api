@@ -14,7 +14,6 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class Participant(UserIdTitleUCMixin, Base):
-    # TODO При создании нового пользователя добавлять стандартного участника
 
     user: Mapped[User] = relationship(back_populates="participants")
     coefficient: Mapped[float] = mapped_column(default=1.0)

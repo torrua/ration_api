@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from functools import wraps
 
-from sqlalchemy import Column, ForeignKey, UniqueConstraint, String
+from sqlalchemy import ForeignKey, UniqueConstraint, String
 from sqlalchemy.orm import declarative_mixin, declared_attr, mapped_column
 
 from src.api.models.utils import camel_to_snake
