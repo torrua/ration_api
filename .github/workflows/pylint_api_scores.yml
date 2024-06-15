@@ -1,4 +1,4 @@
-name: Pylint API
+name: Pylint API Scores
 
 on: [push]
 
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: Silleellie/pylint-github-action@v2
         with:
-          lint-path: src/api
+          lint-path: src
           python-version: ${{ matrix.python-version }}
           badge-text: PyLint API
           requirements-path: requirements-docker.txt
