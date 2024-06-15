@@ -1,4 +1,4 @@
--r requirements.txt
+-r requirements-docker.txt
 
 pytest==8.2.2
 pytest-cov==5.0.0
