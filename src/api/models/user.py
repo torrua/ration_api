@@ -40,6 +40,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):  # type: ignore
 
     _properties: dict[str, Any] = {
         "back_populates": __tablename__,
+        "cascade": "all, delete, delete-orphan",
     }
     product_categories: Mapped[list[ProductCategory]] = relationship(**_properties)
     meals: Mapped[list[Meal]] = relationship(**_properties)

@@ -6,6 +6,15 @@ def test_create_user():
     assert user_alice.email == alice_data.get("email")
 
 
+def cascade_delete_test(session, model, user_factory):
+    user_id = user_factory(session).id
+    assert session.query(model).filter(model.user_id == user_id).count() > 0
+
+    session.delete(user_factory(session))
+    session.commit()
+    assert session.query(model).filter(model.user_id == user_id).count() == 0
+
+
 @pytest.mark.usefixtures("filled_session")
 class TestCreateUser:
 
@@ -104,3 +113,37 @@ class TestCreateUser:
             "username": "Alice2000",
             "is_active": True,
         }
+
+    def test_delete(self, filled_session):
+        filled_session.delete(self.user(filled_session))
+        assert filled_session.query(User).filter(User.email == alice_data.get("email")).first() is None
+
+    def test_products_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Product, self.user)
+
+    def test_portions_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Portion, self.user)
+
+    def test_dishes_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Dish, self.user)
+
+    def test_meals_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Meal, self.user)
+
+    def test_mealtimes_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Mealtime, self.user)
+
+    def test_mealtime_types_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, MealtimeType, self.user)
+
+    def test_participants_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Participant, self.user)
+
+    def test_product_categories_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, ProductCategory, self.user)
+
+    def test_units_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Unit, self.user)
+
+    def test_trips_cascade_delete(self, filled_session):
+        cascade_delete_test(filled_session, Trip, self.user)
