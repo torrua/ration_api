@@ -25,8 +25,9 @@ class Mealtime(UserIdTitleUCMixin, Base):
     """
 
     user: Mapped[User] = relationship(back_populates="mealtimes")
+
     trip_id: Mapped[int] = mapped_column(ForeignKey("trip.id"))
-    trip: Mapped[Trip] = relationship(back_populates="mealtimes")
+    trip: Mapped[Trip] = relationship(back_populates="mealtimes", lazy="joined")
 
     meal_id: Mapped[int] = mapped_column(ForeignKey("meal.id"))
     meal: Mapped[Meal] = relationship(back_populates="mealtimes", lazy="joined")

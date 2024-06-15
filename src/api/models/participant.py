@@ -16,6 +16,7 @@ if TYPE_CHECKING:  # pragma: no cover
 class Participant(UserIdTitleUCMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="participants")
+
     coefficient: Mapped[float] = mapped_column(default=1.0)
 
     trips: Mapped[list[Trip]] = relationship(
