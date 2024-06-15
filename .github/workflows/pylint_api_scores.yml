@@ -1,0 +1,16 @@
+name: Pylint API
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+    steps:
+      - uses: Silleellie/pylint-github-action@v2
+        with:
+          package-path: src/api
+          python-version: ${{ matrix.python-version }}
+          badge-text: PyLint API
