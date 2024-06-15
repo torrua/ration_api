@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 from fastapi_users import schemas
+from pydantic import StringConstraints
+from typing_extensions import Annotated
 
 
-class UserRead(schemas.BaseUser[int]):
+class UserRead(schemas.BaseUser[int]):  # pylint: disable=R0903
     id: int
     email: str
     username: str | None = None
@@ -14,13 +16,13 @@ class UserRead(schemas.BaseUser[int]):
     is_superuser: bool = False
     is_verified: bool = False
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         from_attributes = True
 
 
 class UserCreate(schemas.BaseUserCreate):
     email: str
-    password: str
+    password: Annotated[str, StringConstraints(min_length=10)]
 
     first_name: str | None = None
     last_name: str | None = None

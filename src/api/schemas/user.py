@@ -7,10 +7,6 @@ class UserBase(OrmBase):
     email: str
 
 
-class UserCreate(UserBase):
-    password: str
-
-
 class User(UserBase):
     first_name: str | None
     last_name: str | None
