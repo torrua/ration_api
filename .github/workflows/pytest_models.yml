@@ -1,8 +1,10 @@
-name: Pytest Models with Codecov
+name: Pytest Models with Codecov & CodeClimate
 on: [push, pull_request]
 jobs:
   run:
     runs-on: ubuntu-latest
+    env:
+      CC_TEST_REPORTER_ID: 008d73ce3d532a287e7af2a9055433a88116f25b402806297568d3cd21fbda8d
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,10 +17,28 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-tests.txt
       - name: Run tests and collect coverage
-        run: pytest --cov src/api/models ${{ env.CODECOV_ATS_TESTS }}
+        run: |
+          pytest --cov src/api/models ${{ env.CODECOV_ATS_TESTS }}
+          bash <(curl -s https://codecov.io/bash)
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           verbose: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Install CodeClimate Test-Reporter
+        run: |
+          # download test reporter as a static binary
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+      - name: Run coverage report
+        run: |
+          ./cc-test-reporter before-build
+          ./cc-test-reporter format-coverage -t coverage.py
+          ./cc-test-reporter upload-coverage
+
+      - name: Finish build
+        run: |
+          ./cc-test-reporter after-build --exit-code $?
