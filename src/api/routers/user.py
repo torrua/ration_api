@@ -1,6 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 
-# TODO DRAFT as we have user's router in auth module
+from src.api.models import User as UserORM
+from src.api.schemas.user import User
+from src.auth.base_config import current_user
 
 router = APIRouter(
     prefix="/users",
@@ -9,16 +11,6 @@ router = APIRouter(
 )
 
 
-@router.get("/")
-async def read_users():
-    return [{"username": "Hiker2000"}, {"username": "Admin2000"}]  # TODO
-
-
 @router.get("/me")
-async def read_user_me():
-    return {"username": "Hiker2000"}  # TODO
-
-
-@router.get("/{username}")
-async def read_user(username: str):
-    return {"username": username}  # TODO
+def read_user_me(user: UserORM = Depends(current_user)):
+    return User.model_validate(user)
