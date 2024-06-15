@@ -27,7 +27,7 @@ class User(SQLAlchemyBaseUserTable[int], Base):  # type: ignore
         UniqueConstraint("username", name="_user_username_uc"),
     )
 
-    email: Mapped[str] = mapped_column(unique=True)  # type: ignore
+    email: Mapped[str] = mapped_column(unique=True, index=True)  # type: ignore
     hashed_password: Mapped[str]  # type: ignore
 
     first_name: Mapped[str | None]
