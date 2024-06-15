@@ -39,3 +39,13 @@ class TestProduct:
 
     def test_portions(self, filled_session):
         assert len(self.product(filled_session).portions) == 1
+
+    def test_delete_product(self, filled_session):
+        filled_session.delete(self.product(filled_session))
+        assert self.product(filled_session) is None
+
+    def test_cascade_delete_portion(self, filled_session):
+        portion_id = self.product(filled_session).portions[0].id
+        assert portion_id is not None
+        filled_session.delete(self.product(filled_session).portions[0])
+        assert filled_session.query(Portion).filter(Portion.id == portion_id).first() is None

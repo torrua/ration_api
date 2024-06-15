@@ -33,6 +33,7 @@ class Product(UserIdTitleUCMixin, Base):
 
     portions: Mapped[list[Portion]] = relationship(
         back_populates="product",
+        cascade="all, delete",
     )
 
     def __str__(self) -> str:
