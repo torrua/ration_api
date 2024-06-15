@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: Silleellie/pylint-github-action@v2
         with:
-          package-path: src/api
+          lint-path: src/api
           python-version: ${{ matrix.python-version }}
           badge-text: PyLint API
+          requirements-path: requirements-docker.txt
