@@ -13,7 +13,12 @@ cookie_transport = CookieTransport(cookie_name="jwt_token", cookie_max_age=3600)
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=JWT_SECRET, lifetime_seconds=3600, algorithm="HS256")
+    return JWTStrategy(
+        secret=JWT_SECRET,
+        lifetime_seconds=3600,
+        algorithm="HS256",
+        token_audience=["hike-fuel:auth"],
+    )
 
 
 auth_backend = AuthenticationBackend(
