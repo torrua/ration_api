@@ -1,16 +1,17 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload
+from __future__ import annotations
 
-from .utils import create_item, read_items, delete_item
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from .utils import create, read_all, read_one, delete, update
 from ..models import User, ProductCategory as ItemORM
-from ..schemas.product_category import ProductCategory as Item
 from ..schemas.product_category import (
     ProductCategoryCreate as ItemCreate,
     ProductCategoryUpdate as ItemUpdate,
+    ProductCategoryInDB as ItemInDB,
+    ProductCategory as Item,
 )
-from ..schemas.product_category import ProductCategoryInDBBase as ItemInDBBase
+
 from ...auth.base_config import current_user
 from ...database import get_async_session
 
@@ -21,60 +22,50 @@ router = APIRouter(
 )
 
 
-@router.post("/")
+@router.post("/", response_model=ItemInDB, status_code=status.HTTP_201_CREATED)
 async def create_product_category(
     item: ItemCreate,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    return await create_item(item=item, class_orm=ItemORM, session=session, user=user)
+    return await create(data=item, class_orm=ItemORM, session=session, user=user)
 
 
-@router.get("/", response_model=list[ItemInDBBase])
+@router.put("/{item_id}", response_model=Item, status_code=status.HTTP_200_OK)
+async def update_product_category(
+    item_id: int,
+    item_update: ItemUpdate,
+    session: AsyncSession = Depends(get_async_session),
+    user: User = Depends(current_user),
+):
+    return await update(item_id=item_id, data=item_update, class_orm=ItemORM, session=session, user=user)
+
+
+@router.get("/", response_model=list[ItemInDB], status_code=status.HTTP_200_OK)
 async def read_product_categories(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    return await read_items(class_orm=ItemORM, session=session, user=user)
+    return await read_all(class_orm=ItemORM, session=session, user=user)
 
 
-@router.get("/{item_id}")
+@router.get("/{item_id}", response_model=Item, status_code=status.HTTP_200_OK)
 async def read_product_category(
     item_id: int,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    item = await session.execute(
-        select(ItemORM)
-        .options(joinedload(ItemORM.products))
-        .where(ItemORM.id == item_id, ItemORM.user_id == user.id)
+    return await read_one(
+        item_id=item_id, class_orm=ItemORM, session=session, user=user,
     )
-    return Item.model_validate(item.scalars().first())
 
 
-@router.put("/{item_id}")
-async def update_product_category(
-    item_id: int,
-    item: ItemUpdate,
-    session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
-):
-    item_db = await session.execute(
-        select(ItemORM).where(ItemORM.id == item_id, ItemORM.user_id == user.id)
-    )
-    item_db = item_db.scalars().first()
-    item_db.title = item.title
-    item_db.description = item.description
-    await session.commit()
-    return item_db
-
-
-@router.delete("/{item_id}")
+@router.delete("/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_product_category(
     item_id: int,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    return await delete_item(
+    return await delete(
         item_id=item_id, class_orm=ItemORM, session=session, user=user
     )

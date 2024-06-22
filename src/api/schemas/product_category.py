@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import List, Type
+
 from .orm_base import OrmBase
 
 
@@ -13,14 +15,19 @@ class ProductCategoryCreate(ProductCategoryBase):
 
 
 class ProductCategoryUpdate(ProductCategoryBase):
-    pass
+    title: str | None = None
 
 
-class ProductCategoryInDBBase(ProductCategoryBase):
+class ProductCategoryInDB(ProductCategoryBase):
     id: int
     user_id: int
 
 
 # Properties to return via API
-class ProductCategory(ProductCategoryInDBBase):
-    products: list["ProductInDBBase"]
+class ProductCategory(ProductCategoryInDB):
+    products: List["ProductInDB"] = None  # Postponed annotation
+
+
+from .product import ProductInDB
+
+ProductCategory.model_rebuild()

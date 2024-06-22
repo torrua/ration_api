@@ -47,9 +47,3 @@ class Mealtime(UserIdTitleUCMixin, Base):
     @property
     def portions(self) -> list[Portion]:
         return self.meal.portions
-
-
-@event.listens_for(Mealtime, "before_insert")
-def set_mealtime_user_id(_, __, mealtime):
-    if mealtime.meal.user and mealtime.meal.user.id:
-        mealtime.user_id = mealtime.meal.user.id

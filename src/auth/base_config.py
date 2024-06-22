@@ -9,7 +9,7 @@ from ..config import JWT_SECRET
 from .manager import get_user_manager
 from ..api.models import User
 
-cookie_transport = CookieTransport(cookie_name="jwt_token", cookie_max_age=3600)
+cookie_transport = CookieTransport(cookie_name="bonds", cookie_max_age=3600)
 
 
 def get_jwt_strategy() -> JWTStrategy:
