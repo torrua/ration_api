@@ -28,14 +28,16 @@ async def create_mealtime_type(
     return await create(data=item, class_orm=ItemORM, session=session, user=user)
 
 
-@router.put("/{item_id}", response_model=Item, status_code=status.HTTP_200_OK)
+@router.put("/{item_id}", response_model=ItemInDB, status_code=status.HTTP_200_OK)
 async def update_mealtime_type(
     item_id: int,
     item_update: ItemUpdate,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    return await update(item_id=item_id, data=item_update, class_orm=ItemORM, session=session, user=user)
+    return await update(
+        item_id=item_id, data=item_update, class_orm=ItemORM, session=session, user=user
+    )
 
 
 @router.get("/", response_model=list[ItemInDB], status_code=status.HTTP_200_OK)
@@ -53,7 +55,10 @@ async def read_mealtime_type(
     user: User = Depends(current_user),
 ):
     return await read_one(
-        item_id=item_id, class_orm=ItemORM, session=session, user=user,
+        item_id=item_id,
+        class_orm=ItemORM,
+        session=session,
+        user=user,
     )
 
 
@@ -63,6 +68,4 @@ async def delete_mealtime_type(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    return await delete(
-        item_id=item_id, class_orm=ItemORM, session=session, user=user
-    )
+    return await delete(item_id=item_id, class_orm=ItemORM, session=session, user=user)

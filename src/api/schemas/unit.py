@@ -1,10 +1,8 @@
 # product.py
 from __future__ import annotations
 
-from pydantic import Field
-
 from .orm_base import OrmBase
-from .portion import PortionInDB
+from .utils import partial_model
 
 
 class UnitBase(OrmBase):
@@ -17,11 +15,10 @@ class UnitCreate(UnitBase):
     pass
 
 
+@partial_model
 class UnitUpdate(UnitBase):
-    title: str | None = None
-    ratio_gr: float | None = Field(default=1.0)
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         exclude_unset = True
 
 
@@ -34,8 +31,7 @@ class UnitInDB(UnitBase):
 class Unit(UnitInDB):
     portions: list["PortionInDB"]
 
-    class Config:
-        exclude_unset = True
 
+from .portion import PortionInDB
 
 Unit.model_rebuild()

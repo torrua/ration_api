@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from .orm_base import OrmBase
+from .utils import partial_model
 
 
 class MealBase(OrmBase):
@@ -12,10 +13,10 @@ class MealCreate(MealBase):
     pass
 
 
+@partial_model
 class MealUpdate(MealBase):
-    title: str | None = None
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         exclude_unset = True
 
 
@@ -28,9 +29,6 @@ class MealInDB(MealBase):
 class Meal(MealInDB):
     dishes: list["DishInDB"]
     mealtimes: list["MealtimeInDB"]
-
-    class Config:
-        exclude_unset = True
 
 
 from .dish import DishInDB

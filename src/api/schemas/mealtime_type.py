@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime
-
 from .orm_base import OrmBase
+from .utils import partial_model
 
 
 class MealtimeTypeBase(OrmBase):
@@ -14,10 +13,10 @@ class MealtimeTypeCreate(MealtimeTypeBase):
     pass
 
 
+@partial_model
 class MealtimeTypeUpdate(MealtimeTypeBase):
-    title: str | None = None
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         exclude_unset = True
 
 
@@ -28,9 +27,6 @@ class MealtimeTypeInDB(MealtimeTypeBase):
 
 class MealtimeType(MealtimeTypeInDB):
     mealtimes: "MealtimeInDB"
-
-    class Config:
-        exclude_unset = True
 
 
 from .mealtime import MealtimeInDB

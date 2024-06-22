@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import datetime
 
 from .orm_base import OrmBase
+from .utils import partial_model
 
 
 class TripBase(OrmBase):
@@ -17,10 +18,10 @@ class TripCreate(TripBase):
     pass
 
 
+@partial_model
 class TripUpdate(TripBase):
-    title: str | None = None
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         exclude_unset = True
 
 
@@ -33,9 +34,6 @@ class TripInDB(TripBase):
 class Trip(TripInDB):
     mealtimes: list["MealtimeInDB"]
     participants: list["ParticipantInDB"]
-
-    class Config:
-        exclude_unset = True
 
 
 from .mealtime import MealtimeInDB

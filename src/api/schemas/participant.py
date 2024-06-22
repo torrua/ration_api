@@ -4,6 +4,7 @@ from __future__ import annotations
 from pydantic import Field
 
 from .orm_base import OrmBase
+from .utils import partial_model
 
 
 class ParticipantBase(OrmBase):
@@ -16,11 +17,10 @@ class ParticipantCreate(ParticipantBase):
     pass
 
 
+@partial_model
 class ParticipantUpdate(ParticipantBase):
-    title: str | None = None
-    coefficient: float | None = Field(default=1.0)
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         exclude_unset = True
 
 
@@ -32,9 +32,6 @@ class ParticipantInDB(ParticipantBase):
 # Properties to return via API
 class Participant(ParticipantInDB):
     trips: "TripInDB"
-
-    class Config:
-        exclude_unset = True
 
 
 from .trip import TripInDB

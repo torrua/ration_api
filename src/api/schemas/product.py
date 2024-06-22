@@ -6,6 +6,7 @@ from typing import Optional
 from pydantic import Field
 
 from .orm_base import OrmBase
+from .utils import partial_model
 
 
 class ProductBase(OrmBase):
@@ -22,10 +23,10 @@ class ProductCreate(ProductBase):
     pass
 
 
+@partial_model
 class ProductUpdate(ProductBase):
-    title: str | None = None
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         exclude_unset = True
 
 
@@ -36,11 +37,8 @@ class ProductInDB(ProductBase):
 
 # Properties to return via API
 class Product(ProductInDB):
-    product_category: Optional["ProductCategoryInDB"] = None  # Postponed annotation
+    product_category: Optional["ProductCategoryInDB"] = None
     portions: list["PortionInDB"]
-
-    class Config:
-        exclude_unset = True
 
 
 from .product_category import ProductCategoryInDB

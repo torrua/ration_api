@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import List, Type
-
 from .orm_base import OrmBase
+from .utils import partial_model
 
 
 class ProductCategoryBase(OrmBase):
@@ -14,8 +13,11 @@ class ProductCategoryCreate(ProductCategoryBase):
     pass
 
 
+@partial_model
 class ProductCategoryUpdate(ProductCategoryBase):
-    title: str | None = None
+
+    class Config:  # pylint: disable=R0903
+        exclude_unset = True
 
 
 class ProductCategoryInDB(ProductCategoryBase):
@@ -25,7 +27,7 @@ class ProductCategoryInDB(ProductCategoryBase):
 
 # Properties to return via API
 class ProductCategory(ProductCategoryInDB):
-    products: List["ProductInDB"] = None  # Postponed annotation
+    products: list["ProductInDB"] = None  # Postponed annotation
 
 
 from .product import ProductInDB

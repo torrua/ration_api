@@ -4,8 +4,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from .auth.base_config import auth_backend, fastapi_users
 from .auth.schemas import UserRead, UserCreate
 from .api.routers import (
-    user, product, product_category, portion, unit, dish,
-    meal, trip, participant, mealtime, mealtime_type,
+    user,
+    product,
+    product_category,
+    portion,
+    unit,
+    dish,
+    meal,
+    trip,
+    participant,
+    mealtime,
+    mealtime_type,
 )
 
 

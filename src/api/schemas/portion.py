@@ -4,6 +4,7 @@ from __future__ import annotations
 from pydantic import Field
 
 from .orm_base import OrmBase
+from .utils import partial_model
 
 
 class PortionBase(OrmBase):
@@ -19,12 +20,10 @@ class PortionCreate(PortionBase):
     pass
 
 
+@partial_model
 class PortionUpdate(PortionBase):
-    title: str | None = None
-    product_id: int | None = None
-    unit_id: int | None = None
 
-    class Config:
+    class Config:  # pylint: disable=R0903
         exclude_unset = True
 
 
@@ -38,9 +37,6 @@ class Portion(PortionInDB):
     product: "ProductInDB"
     unit: "UnitInDB"
     dishes: list["DishInDB"]
-
-    class Config:
-        exclude_unset = True
 
 
 from .product import ProductInDB

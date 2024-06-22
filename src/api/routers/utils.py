@@ -58,7 +58,7 @@ async def delete(item_id: int, class_orm, session: AsyncSession, user: User):
     return deleted
 
 
-def select_stmt(class_orm, user_id: int, item_id: int = None):
+def select_stmt(class_orm, user_id: int, item_id: int | None = None):
     stmt = select(class_orm).where(class_orm.user_id == user_id)
     if item_id is not None:
         stmt = stmt.where(class_orm.id == item_id)

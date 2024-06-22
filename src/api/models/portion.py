@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
-from sqlalchemy import event
+from sqlalchemy import ForeignKey, event
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .base import Base
@@ -66,3 +65,9 @@ class Portion(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
     @round_nutrition_value
     def calories(self) -> float:
         return self.product.calories / 100 * self.value
+
+
+@event.listens_for(Portion, "before_insert")
+def set_portion_user_id(_, __, portion):
+    if portion.product.user and portion.product.user.id:
+        portion.user_id = portion.product.user.id
