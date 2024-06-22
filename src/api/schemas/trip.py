@@ -13,6 +13,11 @@ class TripBase(OrmBase):
     started_at: datetime | None = None
     ended_at: datetime | None = None
 
+    carbohydrates: float
+    fat: float
+    protein: float
+    calories: float
+
 
 class TripCreate(TripBase):
     pass

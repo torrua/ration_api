@@ -35,3 +35,29 @@ class TestMealtime:
         assert mealtime.mealtime_type.description == dinner_mealtime_type_data.get(
             "description"
         )
+
+    @staticmethod
+    def mealtime(filled_session):
+        return (
+            filled_session.query(Mealtime)
+            .filter(Mealtime.title == dinner_mealtime_data.get("title"))
+            .first()
+        )
+
+    def test_meal_portions(self, filled_session):
+        assert len(self.mealtime(filled_session).portions) == 5
+
+    def test_meal_protein(self, filled_session):
+        assert self.mealtime(filled_session).protein == 25.55
+
+    def test_meal_carbohydrates(self, filled_session):
+        assert self.mealtime(filled_session).carbohydrates == 102.47
+
+    def test_meal_fat(self, filled_session):
+        assert self.mealtime(filled_session).fat == 25.96
+
+    def test_meal_calories(self, filled_session):
+        assert self.mealtime(filled_session).calories == 732.25
+
+    def test_meal_dishes(self, filled_session):
+        assert len(self.mealtime(filled_session).dishes) == 2

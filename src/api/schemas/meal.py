@@ -8,6 +8,11 @@ class MealBase(OrmBase):
     title: str
     description: str | None = None
 
+    carbohydrates: float
+    fat: float
+    protein: float
+    calories: float
+
 
 class MealCreate(MealBase):
     pass

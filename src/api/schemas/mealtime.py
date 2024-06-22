@@ -14,6 +14,11 @@ class MealtimeBase(OrmBase):
     mealtime_type_id: int | None = None
     scheduled_at: datetime | None = None
 
+    carbohydrates: float
+    fat: float
+    protein: float
+    calories: float
+
 
 class MealtimeCreate(MealtimeBase):
     pass

@@ -15,6 +15,11 @@ class PortionBase(OrmBase):
     value: float
     is_fixed: bool = Field(default=False)
 
+    carbohydrates: float
+    fat: float
+    protein: float
+    calories: float
+
 
 class PortionCreate(PortionBase):
     pass
