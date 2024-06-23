@@ -1,5 +1,5 @@
 # ⛽ HikeFuel
-![pylint](https://img.shields.io/badge/PyLint%20API-10.00-brightgreen?logo=python&logoColor=white)
+![pylint](https://img.shields.io/badge/PyLint%20API-9.85-yellow?logo=python&logoColor=white)
 ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/torrua/ration_api?style=flat&logo=codeclimate&label=Maintainability)
 [![codecov](https://codecov.io/github/torrua/ration_api/graph/badge.svg?token=HMAAB6JBCU)](https://codecov.io/github/torrua/ration_api)
 
