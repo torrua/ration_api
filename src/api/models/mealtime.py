@@ -7,7 +7,12 @@ from sqlalchemy import ForeignKey, DateTime, event
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from .base import Base
-from .mixins import UserIdTitleUCMixin, round_nutrition_value, NutritionCalculableMixin
+from .mixins import (
+    UserIdTitleUCMixin,
+    round_nutrition_value,
+    NutritionCalculableMixin,
+    WeightCalculableMixin,
+)
 
 if TYPE_CHECKING:  # pragma: no cover
     from .trip import Trip
@@ -18,7 +23,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from .dish import Dish
 
 
-class Mealtime(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
+class Mealtime(UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMixin, Base):
     """
     Прием пищи с привязкой к категории и времени.
     Это необходимо, потому что один прием пищи может быть в разных категориях,
@@ -50,28 +55,41 @@ class Mealtime(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
         return self.meal.portions
 
     @property
-    @round_nutrition_value
-    def carbohydrates(self) -> float:
-        return self.meal.carbohydrates
-
-    @property
-    @round_nutrition_value
-    def fat(self) -> float:
-        return self.meal.fat
-
-    @property
-    @round_nutrition_value
-    def protein(self) -> float:
-        return self.meal.protein
-
-    @property
-    @round_nutrition_value
-    def calories(self) -> float:
-        return self.meal.calories
-
-    @property
     def dishes(self) -> list[Dish]:
         return self.meal.dishes
+
+    @round_nutrition_value
+    def _calculate_total_nutrient(self, nutrient_name: str) -> float:
+        total_nutrient = 0
+        for portion in self.portions:
+            portion_coefficient = (
+                self.trip.number_of_participants
+                if portion.is_fixed
+                else self.trip.common_coefficient
+            )
+            nutrient_value = getattr(portion, nutrient_name)
+            total_nutrient += nutrient_value * portion_coefficient
+        return total_nutrient
+
+    @property
+    def carbohydrates(self) -> float:
+        return self._calculate_total_nutrient('carbohydrates')
+
+    @property
+    def fat(self) -> float:
+        return self._calculate_total_nutrient('fat')
+
+    @property
+    def protein(self) -> float:
+        return self._calculate_total_nutrient('protein')
+
+    @property
+    def calories(self) -> float:
+        return self._calculate_total_nutrient('calories')
+
+    @property
+    def weight(self) -> float:
+        return self._calculate_total_nutrient('weight')
 
 
 @event.listens_for(Mealtime, "before_insert")
