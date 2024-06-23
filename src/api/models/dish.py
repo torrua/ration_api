@@ -11,8 +11,8 @@ from .connect_tables import (
 )
 from .mixins import (
     NutritionCalculableMixin,
-    round_nutrition_value,
     UserIdTitleUCMixin,
+    WeightCalculableMixin,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -21,7 +21,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from src.api.models.user import User
 
 
-class Dish(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
+class Dish(UserIdTitleUCMixin, NutritionCalculableMixin, WeightCalculableMixin, Base):
 
     user: Mapped[User] = relationship(back_populates="dishes")
 
@@ -37,24 +37,24 @@ class Dish(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
     )
 
     @property
-    @round_nutrition_value
     def carbohydrates(self) -> float:
         return sum(portion.carbohydrates for portion in self.portions)
 
     @property
-    @round_nutrition_value
     def fat(self) -> float:
         return sum(portion.fat for portion in self.portions)
 
     @property
-    @round_nutrition_value
     def protein(self) -> float:
         return sum(portion.protein for portion in self.portions)
 
     @property
-    @round_nutrition_value
     def calories(self) -> float:
         return sum(portion.calories for portion in self.portions)
+
+    @property
+    def weight(self) -> float:
+        return sum(portion.weight for portion in self.portions)
 
     @property
     def is_fixed(self) -> bool:
