@@ -66,6 +66,11 @@ class Portion(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
     def calories(self) -> float:
         return self.product.calories / 100 * self.value
 
+    @property
+    @round_nutrition_value
+    def weight(self) -> float:
+        return self.value * self.unit.ratio_gr
+
 
 @event.listens_for(Portion, "before_insert")
 def set_portion_user_id(_, __, portion):
