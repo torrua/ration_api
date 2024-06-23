@@ -39,3 +39,6 @@ class TestMeal:
 
     def test_meal_dishes(self, filled_session):
         assert len(self.meal(filled_session).dishes) == 2
+
+    def test_meal_weight(self, filled_session):
+        assert self.meal(filled_session).weight == 415.0

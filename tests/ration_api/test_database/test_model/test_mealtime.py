@@ -51,5 +51,8 @@ class TestMealtime:
     def test_mealtime_calories(self, filled_session):
         assert self.mealtime(filled_session).calories == 1757.4
 
+    def test_mealtime_weight(self, filled_session):
+        assert self.mealtime(filled_session).weight == 996.0
+
     def test_mealtime_dishes(self, filled_session):
         assert len(self.mealtime(filled_session).dishes) == 2

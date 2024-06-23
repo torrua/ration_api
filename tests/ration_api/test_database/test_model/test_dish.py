@@ -49,5 +49,10 @@ class TestDish:
             [p.protein for p in self.dish(filled_session).portions]
         )
 
+    def test_dish_weight(self, filled_session):
+        assert self.dish(filled_session).weight == sum(
+            [p.weight for p in self.dish(filled_session).portions]
+        )
+
     def test_dish_is_fixed(self, filled_session):
         assert not self.dish(filled_session).is_fixed
