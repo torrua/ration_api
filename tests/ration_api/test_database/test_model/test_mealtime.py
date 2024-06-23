@@ -18,14 +18,6 @@ def test_mealtime_creation():
 @pytest.mark.usefixtures("filled_session")
 class TestMealtime:
 
-    def test_mealtime_portions(self, filled_session):
-        mealtime = (
-            filled_session.query(Mealtime)
-            .filter(Mealtime.title == dinner_mealtime_data.get("title"))
-            .first()
-        )
-        assert len(mealtime.portions) == 5
-
     def test_mealtime_type(self, filled_session):
         mealtime = (
             filled_session.query(Mealtime)
@@ -44,20 +36,20 @@ class TestMealtime:
             .first()
         )
 
-    def test_meal_portions(self, filled_session):
+    def test_mealtime_portions(self, filled_session):
         assert len(self.mealtime(filled_session).portions) == 5
 
-    def test_meal_protein(self, filled_session):
-        assert self.mealtime(filled_session).protein == 25.55
+    def test_mealtime_protein(self, filled_session):
+        assert self.mealtime(filled_session).protein == 61.32
 
-    def test_meal_carbohydrates(self, filled_session):
-        assert self.mealtime(filled_session).carbohydrates == 102.47
+    def test_mealtime_carbohydrates(self, filled_session):
+        assert self.mealtime(filled_session).carbohydrates == 245.93
 
-    def test_meal_fat(self, filled_session):
-        assert self.mealtime(filled_session).fat == 25.96
+    def test_mealtime_fat(self, filled_session):
+        assert self.mealtime(filled_session).fat == 62.3
 
-    def test_meal_calories(self, filled_session):
-        assert self.mealtime(filled_session).calories == 732.25
+    def test_mealtime_calories(self, filled_session):
+        assert self.mealtime(filled_session).calories == 1757.4
 
-    def test_meal_dishes(self, filled_session):
+    def test_mealtime_dishes(self, filled_session):
         assert len(self.mealtime(filled_session).dishes) == 2
