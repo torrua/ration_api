@@ -10,8 +10,8 @@ from .base import Base
 from .connect_tables import t_connect_trip_participant
 from .mixins import (
     NutritionCalculableMixin,
-    round_nutrition_value,
     UserIdTitleUCMixin,
+    WeightCalculableMixin,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -21,7 +21,7 @@ if TYPE_CHECKING:  # pragma: no cover
     from .portion import Portion
 
 
-class Trip(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
+class Trip(UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMixin, Base):
     """
     Фактически путешествие в разрезе продуктовой раскладки это
     отсортированный по времени перечень приемов пищи с учетом
@@ -46,7 +46,6 @@ class Trip(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
     )
 
     @property
-    @round_nutrition_value
     def number_of_participants(self) -> int:
         return len(self.participants)
 
@@ -55,61 +54,25 @@ class Trip(UserIdTitleUCMixin, NutritionCalculableMixin, Base):
         return sum(participant.coefficient for participant in self.participants)
 
     @property
-    @round_nutrition_value
     def portions(self) -> list[Portion]:
-        return [portion for meal in self.mealtimes for portion in meal.portions]
+        return [portion for mealtime in self.mealtimes for portion in mealtime.portions]
 
     @property
-    @round_nutrition_value
     def carbohydrates(self) -> float:
-        total_carbohydrates = 0
-        for portion in self.portions:
-            portion_coefficient = (
-                self.number_of_participants
-                if portion.is_fixed
-                else self.common_coefficient
-            )
-            total_carbohydrates += portion.carbohydrates * portion_coefficient
-        return total_carbohydrates
+        return sum(mealtime.carbohydrates for mealtime in self.mealtimes)
 
     @property
-    @round_nutrition_value
     def fat(self) -> float:
-        total_fat = 0
-        for mealtime in self.mealtimes:
-            for portion in mealtime.portions:
-                portion_coefficient = (
-                    self.number_of_participants
-                    if portion.is_fixed
-                    else self.common_coefficient
-                )
-                total_fat += portion.fat * portion_coefficient
-        return total_fat
+        return sum(mealtime.fat for mealtime in self.mealtimes)
 
     @property
-    @round_nutrition_value
     def protein(self) -> float:
-        total_protein = 0
-        for mealtime in self.mealtimes:
-            for portion in mealtime.portions:
-                portion_coefficient = (
-                    self.number_of_participants
-                    if portion.is_fixed
-                    else self.common_coefficient
-                )
-                total_protein += portion.protein * portion_coefficient
-        return total_protein
+        return sum(mealtime.protein for mealtime in self.mealtimes)
 
     @property
-    @round_nutrition_value
     def calories(self) -> float:
-        total_calories = 0
-        for mealtime in self.mealtimes:
-            for portion in mealtime.portions:
-                portion_coefficient = (
-                    self.number_of_participants
-                    if portion.is_fixed
-                    else self.common_coefficient
-                )
-                total_calories += portion.calories * portion_coefficient
-        return total_calories
+        return sum(mealtime.calories for mealtime in self.mealtimes)
+
+    @property
+    def weight(self) -> float:
+        return sum(mealtime.weight for mealtime in self.mealtimes)
