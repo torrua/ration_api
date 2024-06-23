@@ -30,22 +30,22 @@ class TestTrip:
         )
 
     def test_carbohydrates(self, filled_session):
-        assert self.trip(filled_session).carbohydrates == pytest.approx(247.9, abs=0.01)
+        assert self.trip(filled_session).carbohydrates == pytest.approx(274.43, abs=0.01)
 
     def test_fat(self, filled_session):
-        assert self.trip(filled_session).fat == pytest.approx(135.36, abs=0.01)
+        assert self.trip(filled_session).fat == pytest.approx(147.76, abs=0.01)
 
     def test_protein(self, filled_session):
-        assert self.trip(filled_session).protein == pytest.approx(106.01, abs=0.01)
+        assert self.trip(filled_session).protein == pytest.approx(118.31, abs=0.01)
 
     def test_calories(self, filled_session):
-        assert self.trip(filled_session).calories == pytest.approx(2609.88, abs=0.01)
+        assert self.trip(filled_session).calories == pytest.approx(2874.93, abs=0.01)
 
     def test_portions(self, filled_session):
         assert len(self.trip(filled_session).portions) == 7
 
     def test_weight(self, filled_session):
-        assert self.trip(filled_session).weight == 1380.0
+        assert self.trip(filled_session).weight == 1479.0
 
     def test_trip_delete_with_mealtimes(self, filled_session):
         user = self.trip(filled_session).user

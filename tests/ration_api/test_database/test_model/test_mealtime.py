@@ -40,19 +40,19 @@ class TestMealtime:
         assert len(self.mealtime(filled_session).portions) == 5
 
     def test_mealtime_protein(self, filled_session):
-        assert self.mealtime(filled_session).protein == 61.32
+        assert self.mealtime(filled_session).protein == 73.62
 
     def test_mealtime_carbohydrates(self, filled_session):
-        assert self.mealtime(filled_session).carbohydrates == 245.93
+        assert self.mealtime(filled_session).carbohydrates == 272.46
 
     def test_mealtime_fat(self, filled_session):
-        assert self.mealtime(filled_session).fat == 62.3
+        assert self.mealtime(filled_session).fat == 74.7
 
     def test_mealtime_calories(self, filled_session):
-        assert self.mealtime(filled_session).calories == 1757.4
+        assert self.mealtime(filled_session).calories == 2022.45
 
     def test_mealtime_weight(self, filled_session):
-        assert self.mealtime(filled_session).weight == 996.0
+        assert self.mealtime(filled_session).weight == 1095.0
 
     def test_mealtime_dishes(self, filled_session):
         assert len(self.mealtime(filled_session).dishes) == 2

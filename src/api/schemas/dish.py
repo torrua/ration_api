@@ -12,6 +12,8 @@ class DishBase(OrmBase):
     fat: float
     protein: float
     calories: float
+    weight: float
+    is_fixed: bool
 
 
 class DishCreate(DishBase):

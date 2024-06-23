@@ -119,6 +119,7 @@ def filled_session(db_session_factory):
         product=product_rice,
         value=60,
         unit=unit_gr,
+        is_fixed=True,
     )
     portion_lamb = Portion(
         title="lamb",

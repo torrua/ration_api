@@ -12,6 +12,7 @@ from .mixins import (
     UserIdTitleUCMixin,
     NutritionCalculableMixin,
     WeightCalculableMixin,
+    round_nutrition_value,
 )
 from .portion import Portion
 
@@ -37,21 +38,26 @@ class Meal(UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMixin, 
         return [portion for dish in self.dishes for portion in dish.portions]
 
     @property
+    @round_nutrition_value
     def carbohydrates(self) -> float:
         return sum(dish.carbohydrates for dish in self.dishes)
 
     @property
+    @round_nutrition_value
     def fat(self) -> float:
         return sum(dish.fat for dish in self.dishes)
 
     @property
+    @round_nutrition_value
     def protein(self) -> float:
         return sum(dish.protein for dish in self.dishes)
 
     @property
+    @round_nutrition_value
     def calories(self) -> float:
         return sum(dish.calories for dish in self.dishes)
 
     @property
+    @round_nutrition_value
     def weight(self) -> float:
-        return sum(portion.weight for portion in self.portions)
+        return sum(dish.weight for dish in self.dishes)

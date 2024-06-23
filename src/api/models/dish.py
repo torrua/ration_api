@@ -13,6 +13,7 @@ from .mixins import (
     NutritionCalculableMixin,
     UserIdTitleUCMixin,
     WeightCalculableMixin,
+    round_nutrition_value,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -37,22 +38,27 @@ class Dish(UserIdTitleUCMixin, NutritionCalculableMixin, WeightCalculableMixin, 
     )
 
     @property
+    @round_nutrition_value
     def carbohydrates(self) -> float:
         return sum(portion.carbohydrates for portion in self.portions)
 
     @property
+    @round_nutrition_value
     def fat(self) -> float:
         return sum(portion.fat for portion in self.portions)
 
     @property
+    @round_nutrition_value
     def protein(self) -> float:
         return sum(portion.protein for portion in self.portions)
 
     @property
+    @round_nutrition_value
     def calories(self) -> float:
         return sum(portion.calories for portion in self.portions)
 
     @property
+    @round_nutrition_value
     def weight(self) -> float:
         return sum(portion.weight for portion in self.portions)
 

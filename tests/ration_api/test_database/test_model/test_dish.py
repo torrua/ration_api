@@ -55,4 +55,4 @@ class TestDish:
         )
 
     def test_dish_is_fixed(self, filled_session):
-        assert not self.dish(filled_session).is_fixed
+        assert self.dish(filled_session).is_fixed

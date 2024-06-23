@@ -12,6 +12,7 @@ from .mixins import (
     NutritionCalculableMixin,
     UserIdTitleUCMixin,
     WeightCalculableMixin,
+    round_nutrition_value,
 )
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -50,6 +51,7 @@ class Trip(UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMixin, 
         return len(self.participants)
 
     @property
+    @round_nutrition_value
     def common_coefficient(self) -> float:
         return sum(participant.coefficient for participant in self.participants)
 
@@ -58,21 +60,26 @@ class Trip(UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMixin, 
         return [portion for mealtime in self.mealtimes for portion in mealtime.portions]
 
     @property
+    @round_nutrition_value
     def carbohydrates(self) -> float:
         return sum(mealtime.carbohydrates for mealtime in self.mealtimes)
 
     @property
+    @round_nutrition_value
     def fat(self) -> float:
         return sum(mealtime.fat for mealtime in self.mealtimes)
 
     @property
+    @round_nutrition_value
     def protein(self) -> float:
         return sum(mealtime.protein for mealtime in self.mealtimes)
 
     @property
+    @round_nutrition_value
     def calories(self) -> float:
         return sum(mealtime.calories for mealtime in self.mealtimes)
 
     @property
+    @round_nutrition_value
     def weight(self) -> float:
         return sum(mealtime.weight for mealtime in self.mealtimes)

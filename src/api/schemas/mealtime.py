@@ -18,6 +18,7 @@ class MealtimeBase(OrmBase):
     fat: float
     protein: float
     calories: float
+    weight: float
 
 
 class MealtimeCreate(MealtimeBase):

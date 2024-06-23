@@ -19,6 +19,7 @@ class PortionBase(OrmBase):
     fat: float
     protein: float
     calories: float
+    weight: float
 
 
 class PortionCreate(PortionBase):

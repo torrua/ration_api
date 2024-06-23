@@ -23,7 +23,9 @@ if TYPE_CHECKING:  # pragma: no cover
     from .dish import Dish
 
 
-class Mealtime(UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMixin, Base):
+class Mealtime(
+    UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMixin, Base
+):
     """
     Прием пищи с привязкой к категории и времени.
     Это необходимо, потому что один прием пищи может быть в разных категориях,
@@ -60,36 +62,36 @@ class Mealtime(UserIdTitleUCMixin, WeightCalculableMixin, NutritionCalculableMix
 
     @round_nutrition_value
     def _calculate_total_nutrient(self, nutrient_name: str) -> float:
-        total_nutrient = 0
-        for portion in self.portions:
-            portion_coefficient = (
+        total_nutrient = 0.0
+        for dish in self.meal.dishes:
+            dish_coefficient = (
                 self.trip.number_of_participants
-                if portion.is_fixed
+                if dish.is_fixed
                 else self.trip.common_coefficient
             )
-            nutrient_value = getattr(portion, nutrient_name)
-            total_nutrient += nutrient_value * portion_coefficient
-        return total_nutrient
+            nutrient_value = getattr(dish, nutrient_name)
+            total_nutrient += nutrient_value * dish_coefficient
+        return float(total_nutrient)
 
     @property
     def carbohydrates(self) -> float:
-        return self._calculate_total_nutrient('carbohydrates')
+        return self._calculate_total_nutrient("carbohydrates")
 
     @property
     def fat(self) -> float:
-        return self._calculate_total_nutrient('fat')
+        return self._calculate_total_nutrient("fat")
 
     @property
     def protein(self) -> float:
-        return self._calculate_total_nutrient('protein')
+        return self._calculate_total_nutrient("protein")
 
     @property
     def calories(self) -> float:
-        return self._calculate_total_nutrient('calories')
+        return self._calculate_total_nutrient("calories")
 
     @property
     def weight(self) -> float:
-        return self._calculate_total_nutrient('weight')
+        return self._calculate_total_nutrient("weight")
 
 
 @event.listens_for(Mealtime, "before_insert")
