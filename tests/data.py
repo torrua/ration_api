@@ -8,6 +8,7 @@ alice_data = {
     "email": "alice@model.com",
     "hashed_password": "pass1",
 }
+
 bob_data = {
     "first_name": "Bob",
     "username": "Bob2",
@@ -22,6 +23,15 @@ rice_data = {
     "carbohydrates": 73.7,
     "calories": 323,
 }
+
+buckwheat_data = {
+    'title': 'Крупа гpeчнeвaя ядpицa',
+    'protein': 12.6,
+    'fat': 2.6,
+    'carbohydrates': 68,
+    'calories': 329,
+}
+
 lamb_data = {
     "title": "Бapaнинa",
     "protein": 16.3,
@@ -29,6 +39,7 @@ lamb_data = {
     "carbohydrates": 0,
     "calories": 203,
 }
+
 apple_data = {
     "title": "Яблoки",
     "protein": 0.4,
@@ -36,6 +47,7 @@ apple_data = {
     "carbohydrates": 11.3,
     "calories": 46,
 }
+
 egg_data = {
     "title": "Яйцо",
     "protein": 12.7,
@@ -43,6 +55,7 @@ egg_data = {
     "carbohydrates": 0.7,
     "calories": 157,
 }
+
 sausage_data = {
     "title": "Сосиска",
     "protein": 11,
@@ -58,6 +71,7 @@ cracker_data = {
     "carbohydrates": 71.3,
     "calories": 397,
 }
+
 sunflower_oil_data = {
     "title": "Масло подсолнечное",
     "protein": 0,
@@ -69,12 +83,15 @@ sunflower_oil_data = {
 fruits_product_category_data = {
     "title": "Fruits",
 }
+
 meat_product_category_data = {
     "title": "Meat",
 }
+
 cereal_product_category_data = {
     "title": "Cereal",
 }
+
 dish_rice_with_lamb_oil_data = {
     "title": "Lamb and Rice",
     "description": "Dish with lamb and rice",
@@ -120,11 +137,6 @@ dinner_mealtime_type_data = {
     "description": "Dinner Mealtime Type with different mealtimes",
 }
 
-empty_product_category_data = {
-    "title": "Test Product Category",
-    "description": "Product Category with different products",
-}
-
 first_trip_data = {
     "title": "First Trip",
     "description": "First Trip with different mealtimes",
@@ -138,18 +150,34 @@ first_trip_data = {
     ),
 }
 
+second_trip_data = {
+    "title": "Second Trip",
+    "description": "Second Trip with different mealtimes",
+    "started_at": datetime.datetime.strptime(
+        "2024-02-01 00:00:00",
+        "%Y-%m-%d %H:%M:%S",
+    ),
+    "ended_at": datetime.datetime.strptime(
+        "2024-02-07 00:00:00",
+        "%Y-%m-%d %H:%M:%S",
+    ),
+}
+
 ml_data = {
     "title": "мл.",
     "ratio_gr": 1.0,
 }
+
 gr_data = {
     "title": "гр.",
     "ratio_gr": 1.0,
 }
+
 kg_data = {
     "title": "кг.",
     "ratio_gr": 1000.0,
 }
+
 oz_data = {
     "title": "oz.",
     "ratio_gr": 28.3495,
@@ -159,10 +187,12 @@ child_participant_data = {
     "title": "Child Participant",
     "coefficient": 0.6,
 }
+
 adult_man_participant_data = {
     "title": "Adult Man Participant",
     "coefficient": 1,
 }
+
 adult_woman_participant_data = {
     "title": "Adult Woman Participant",
     "coefficient": 0.8,
