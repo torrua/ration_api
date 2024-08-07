@@ -26,7 +26,7 @@ class UserCreate(schemas.BaseUserCreate):
 
     first_name: str | None = None
     last_name: str | None = None
-    username: str | None = None
+    username: Annotated[str, StringConstraints(min_length=3)] | None = None
 
     is_active: bool | None = True
     is_superuser: bool | None = False
