@@ -15,10 +15,9 @@ from .config import (
     DB_PASS,
     DB_PORT,
     DB_USER,
-    DB_RULE,
 )
 
-DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}{DB_RULE}"
+DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 engine = create_async_engine(
     DATABASE_URL,
@@ -26,7 +25,7 @@ engine = create_async_engine(
     pool_recycle=5,
     pool_pre_ping=True,
     echo=SQL_REQUESTS_ECHO,
-    connect_args={"server_settings": {"application_name": APP_NAME}},
+    connect_args={"server_settings": {"application_name": APP_NAME}, "ssl": "require"},
 )
 
 async_session_maker = async_sessionmaker(
