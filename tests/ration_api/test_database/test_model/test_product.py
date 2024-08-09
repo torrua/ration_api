@@ -1,9 +1,9 @@
 from tests.conftest import *
-from tests.data import rice_data
+from tests.data import data_product_rice
 
 
 def test_create_product():
-    product_rice = Product(**rice_data)
+    product_rice = Product(**data_product_rice)
     assert product_rice.__str__() == "# Kpyпa риcoвaя 7.0/0.6/73.7 (323.0)"
 
 
@@ -14,7 +14,7 @@ class TestProduct:
     def product(filled_session):
         return (
             filled_session.query(Product)
-            .filter(Product.title == rice_data.get("title"))
+            .filter(Product.title == data_product_rice.get("title"))
             .first()
         )
 

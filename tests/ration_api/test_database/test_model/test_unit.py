@@ -11,7 +11,7 @@ class TestUnit:
     def unit(filled_session):
         return (
             filled_session.query(Unit)
-            .filter(Unit.title == gr_data.get("title"))
+            .filter(Unit.title == data_unit_gr.get("title"))
             .first()
         )
 

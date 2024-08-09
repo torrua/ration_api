@@ -1,10 +1,10 @@
 from tests.conftest import *
-from tests.data import first_trip_data
+from tests.data import data_trip_first
 
 
 def test_create_trip():
-    trip = Trip(**first_trip_data)
-    assert trip.title == first_trip_data.get("title")
+    trip = Trip(**data_trip_first)
+    assert trip.title == data_trip_first.get("title")
 
 
 @pytest.mark.usefixtures("filled_session")
@@ -14,7 +14,7 @@ class TestTrip:
     def trip(filled_session):
         return (
             filled_session.query(Trip)
-            .filter(Trip.title == first_trip_data.get("title"))
+            .filter(Trip.title == data_trip_first.get("title"))
             .first()
         )
 

@@ -1,15 +1,15 @@
 from tests.conftest import *
 
 from tests.data import (
-    dish_rice_with_lamb_oil_data,
-    dinner_meal_data,
+    data_dish_rice_with_lamb_oil,
+    data_meal_dinner,
 )
 
 
 def test_dish_creation():
-    dish = Dish(**dish_rice_with_lamb_oil_data)
-    assert dish.title == dish_rice_with_lamb_oil_data.get("title")
-    assert dish.description == dish_rice_with_lamb_oil_data.get("description")
+    dish = Dish(**data_dish_rice_with_lamb_oil)
+    assert dish.title == data_dish_rice_with_lamb_oil.get("title")
+    assert dish.description == data_dish_rice_with_lamb_oil.get("description")
 
 
 @pytest.mark.usefixtures("filled_session")
@@ -19,7 +19,7 @@ class TestDish:
     def dish(filled_session):
         return (
             filled_session.query(Dish)
-            .filter(Dish.title == dish_rice_with_lamb_oil_data.get("title"))
+            .filter(Dish.title == data_dish_rice_with_lamb_oil.get("title"))
             .first()
         )
 
@@ -27,7 +27,7 @@ class TestDish:
         assert len(self.dish(filled_session).portions) == 3
 
     def test_dish_meals(self, filled_session):
-        assert self.dish(filled_session).meals[0].title == dinner_meal_data.get("title")
+        assert self.dish(filled_session).meals[0].title == data_meal_dinner.get("title")
 
     def test_dish_calories(self, filled_session):
         assert self.dish(filled_session).calories == sum(

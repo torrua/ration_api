@@ -2,21 +2,21 @@ from __future__ import annotations
 
 import datetime
 
-alice_data = {
+data_user_alice = {
     "first_name": "Alice",
     "username": "Alice2000",
     "email": "alice@model.com",
-    "hashed_password": "pass1",
+    "hashed_password": "$argon2id$v=19$m=65536,t=3,p=4$vWYJlAvd1l6CrETvjGZqUw$O24OEcreETZQK4YYCPBB8+dms8pqvSyOx9C+Ac+8LOs"  # "password2000"
 }
 
-bob_data = {
+data_user_bob = {
     "first_name": "Bob",
     "username": "Bob2",
     "email": "bob@model.com",
     "hashed_password": "pass2",
 }
 
-rice_data = {
+data_product_rice = {
     "title": "Kpyпa риcoвaя",
     "protein": 7,
     "fat": 0.6,
@@ -24,7 +24,7 @@ rice_data = {
     "calories": 323,
 }
 
-buckwheat_data = {
+data_product_buckwheat = {
     'title': 'Крупа гpeчнeвaя ядpицa',
     'protein': 12.6,
     'fat': 2.6,
@@ -32,7 +32,7 @@ buckwheat_data = {
     'calories': 329,
 }
 
-lamb_data = {
+data_product_lamb = {
     "title": "Бapaнинa",
     "protein": 16.3,
     "fat": 15.3,
@@ -40,7 +40,7 @@ lamb_data = {
     "calories": 203,
 }
 
-apple_data = {
+data_product_apple = {
     "title": "Яблoки",
     "protein": 0.4,
     "fat": 0,
@@ -48,7 +48,7 @@ apple_data = {
     "calories": 46,
 }
 
-egg_data = {
+data_product_egg = {
     "title": "Яйцо",
     "protein": 12.7,
     "fat": 10.9,
@@ -56,7 +56,7 @@ egg_data = {
     "calories": 157,
 }
 
-sausage_data = {
+data_product_sausage = {
     "title": "Сосиска",
     "protein": 11,
     "fat": 23.9,
@@ -64,7 +64,7 @@ sausage_data = {
     "calories": 261,
 }
 
-cracker_data = {
+data_product_cracker = {
     "title": "Cyxapи cливoчныe",
     "protein": 8.5,
     "fat": 10.6,
@@ -72,7 +72,7 @@ cracker_data = {
     "calories": 397,
 }
 
-sunflower_oil_data = {
+data_product_sunflower_oil = {
     "title": "Масло подсолнечное",
     "protein": 0,
     "fat": 99.9,
@@ -80,64 +80,64 @@ sunflower_oil_data = {
     "calories": 899,
 }
 
-fruits_product_category_data = {
+data_product_category_fruits = {
     "title": "Fruits",
 }
 
-meat_product_category_data = {
+data_product_category_meat = {
     "title": "Meat",
 }
 
-cereal_product_category_data = {
+data_product_category_cereal = {
     "title": "Cereal",
 }
 
-dish_rice_with_lamb_oil_data = {
+data_dish_rice_with_lamb_oil = {
     "title": "Lamb and Rice",
     "description": "Dish with lamb and rice",
 }
 
-dish_apple_and_crackers_data = {
+data_dish_apple_and_crackers = {
     "title": "Apple and Crackers",
     "description": "Dish with apple and crackers",
 }
 
-dish_eggs_and_sausages_data = {
+data_dish_eggs_and_sausages = {
     "title": "Eggs and Sausages",
     "description": "Dish with eggs and sausages",
 }
 
-breakfast_meal_data = {
+data_meal_breakfast = {
     "title": "Breakfast Meal",
     "description": "Breakfast Meal with different dishes",
 }
 
-breakfast_mealtime_data = {
+data_mealtime_breakfast = {
     "title": "Breakfast Mealtime",
     "description": "Breakfast Mealtime with different meals and datetime",
 }
 
-breakfast_mealtime_type_data = {
+data_mealtime_type_breakfast = {
     "title": "Breakfast Mealtime Type",
     "description": "Breakfast Mealtime Type with different mealtimes",
 }
 
-dinner_meal_data = {
+data_meal_dinner = {
     "title": "Dinner Meal",
     "description": "Dinner Meal with different dishes",
 }
 
-dinner_mealtime_data = {
+data_mealtime_dinner = {
     "title": "Dinner Mealtime",
     "description": "Dinner Mealtime with different meals and datetime",
 }
 
-dinner_mealtime_type_data = {
+data_mealtime_type_dinner = {
     "title": "Dinner Mealtime Type",
     "description": "Dinner Mealtime Type with different mealtimes",
 }
 
-first_trip_data = {
+data_trip_first = {
     "title": "First Trip",
     "description": "First Trip with different mealtimes",
     "started_at": datetime.datetime.strptime(
@@ -150,7 +150,7 @@ first_trip_data = {
     ),
 }
 
-second_trip_data = {
+data_trip_second = {
     "title": "Second Trip",
     "description": "Second Trip with different mealtimes",
     "started_at": datetime.datetime.strptime(
@@ -163,37 +163,37 @@ second_trip_data = {
     ),
 }
 
-ml_data = {
+data_unit_ml = {
     "title": "мл.",
     "ratio_gr": 1.0,
 }
 
-gr_data = {
+data_unit_gr = {
     "title": "гр.",
     "ratio_gr": 1.0,
 }
 
-kg_data = {
+data_unit_kg = {
     "title": "кг.",
     "ratio_gr": 1000.0,
 }
 
-oz_data = {
+data_unit_oz = {
     "title": "oz.",
     "ratio_gr": 28.3495,
 }
 
-child_participant_data = {
+data_participant_child = {
     "title": "Child Participant",
     "coefficient": 0.6,
 }
 
-adult_man_participant_data = {
+data_participant_adult_man = {
     "title": "Adult Man Participant",
     "coefficient": 1,
 }
 
-adult_woman_participant_data = {
+data_participant_adult_woman = {
     "title": "Adult Woman Participant",
     "coefficient": 0.8,
 }

@@ -1,10 +1,10 @@
 from tests.conftest import *
-from tests.data import rice_data, cereal_product_category_data
+from tests.data import data_product_rice, data_product_category_cereal
 
 
 def test_create_product_category():
-    product_category = ProductCategory(**cereal_product_category_data)
-    assert product_category.title == cereal_product_category_data.get("title")
+    product_category = ProductCategory(**data_product_category_cereal)
+    assert product_category.title == data_product_category_cereal.get("title")
 
 
 @pytest.mark.usefixtures("filled_session")
@@ -14,7 +14,7 @@ class TestProduct:
     def product_category(filled_session):
         return (
             filled_session.query(ProductCategory)
-            .filter(ProductCategory.title == cereal_product_category_data.get("title"))
+            .filter(ProductCategory.title == data_product_category_cereal.get("title"))
             .first()
         )
 

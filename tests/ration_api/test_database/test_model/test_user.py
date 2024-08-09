@@ -2,8 +2,8 @@ from tests.conftest import *
 
 
 def test_create_user():
-    user_alice = User(**alice_data)
-    assert user_alice.email == alice_data.get("email")
+    user_alice = User(**data_user_alice)
+    assert user_alice.email == data_user_alice.get("email")
 
 
 def cascade_delete_test(session, model, user_factory):
@@ -22,7 +22,7 @@ class TestCreateUser:
     def user(filled_session):
         return (
             filled_session.query(User)
-            .filter(User.email == alice_data.get("email"))
+            .filter(User.email == data_user_alice.get("email"))
             .first()
         )
 
@@ -31,7 +31,7 @@ class TestCreateUser:
         assert user.first_name == "Alice"
         assert user.email == "alice@model.com"
         assert user.username == "Alice2000"
-        assert user.hashed_password == "pass1"
+        assert user.hashed_password == "$argon2id$v=19$m=65536,t=3,p=4$vWYJlAvd1l6CrETvjGZqUw$O24OEcreETZQK4YYCPBB8+dms8pqvSyOx9C+Ac+8LOs"
         assert user.last_name is None
         assert user.is_verified is False
         assert user.is_superuser is False
@@ -109,14 +109,14 @@ class TestCreateUser:
         assert self.user(filled_session).as_dict() == {
             "email": "alice@model.com",
             "first_name": "Alice",
-            "hashed_password": "pass1",
+            "hashed_password": "$argon2id$v=19$m=65536,t=3,p=4$vWYJlAvd1l6CrETvjGZqUw$O24OEcreETZQK4YYCPBB8+dms8pqvSyOx9C+Ac+8LOs",
             "username": "Alice2000",
             "is_active": True,
         }
 
     def test_delete(self, filled_session):
         filled_session.delete(self.user(filled_session))
-        assert filled_session.query(User).filter(User.email == alice_data.get("email")).first() is None
+        assert filled_session.query(User).filter(User.email == data_user_alice.get("email")).first() is None
 
     def test_products_cascade_delete(self, filled_session):
         cascade_delete_test(filled_session, Product, self.user)

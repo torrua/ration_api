@@ -17,32 +17,41 @@ from src.api.models import (
     User,
 )
 from tests.data import (
-    fruits_product_category_data,
-    meat_product_category_data,
-    egg_data,
-    sausage_data,
-    dish_eggs_and_sausages_data,
-    breakfast_meal_data,
-    cereal_product_category_data,
-    rice_data,
-    gr_data,
-    alice_data,
-    dish_rice_with_lamb_oil_data,
-    dinner_meal_data,
-    lamb_data,
-    first_trip_data,
-    sunflower_oil_data,
-    apple_data,
-    ml_data,
-    dish_apple_and_crackers_data,
-    cracker_data,
-    dinner_mealtime_data,
-    dinner_mealtime_type_data,
-    breakfast_mealtime_data,
-    breakfast_mealtime_type_data,
-    child_participant_data,
-    adult_man_participant_data,
-    adult_woman_participant_data,
+    data_dish_apple_and_crackers,
+    data_dish_eggs_and_sausages,
+    data_dish_rice_with_lamb_oil,
+
+    data_meal_breakfast,
+    data_meal_dinner,
+
+    data_mealtime_breakfast,
+    data_mealtime_dinner,
+
+    data_mealtime_type_breakfast,
+    data_mealtime_type_dinner,
+
+    data_participant_adult_man,
+    data_participant_adult_woman,
+    data_participant_child,
+
+    data_product_category_cereal,
+    data_product_category_fruits,
+    data_product_category_meat,
+
+    data_product_apple,
+    data_product_cracker,
+    data_product_egg,
+    data_product_lamb,
+    data_product_rice,
+    data_product_sausage,
+    data_product_sunflower_oil,
+
+    data_trip_first,
+
+    data_unit_gr,
+    data_unit_ml,
+
+    data_user_alice,
 )
 
 
@@ -77,35 +86,35 @@ def filled_session(db_session_factory):
 
 
 def fill_db(session_):
-    user = User(**alice_data)
+    user = User(**data_user_alice)
     session_.add(user)
     session_.commit()
-    unit_gr = Unit(**gr_data, user=user)
-    unit_ml = Unit(**ml_data, user=user)
+    unit_gr = Unit(**data_unit_gr, user=user)
+    unit_ml = Unit(**data_unit_ml, user=user)
     session_.add_all([unit_gr, unit_ml])
     session_.commit()
-    product_category_fruits = ProductCategory(**fruits_product_category_data, user=user)
-    product_category_meat = ProductCategory(**meat_product_category_data, user=user)
-    product_category_cereal = ProductCategory(**cereal_product_category_data, user=user)
+    product_category_fruits = ProductCategory(**data_product_category_fruits, user=user)
+    product_category_meat = ProductCategory(**data_product_category_meat, user=user)
+    product_category_cereal = ProductCategory(**data_product_category_cereal, user=user)
     session_.add_all(
         [product_category_fruits, product_category_meat, product_category_cereal]
     )
     session_.commit()
     product_rice = Product(
-        **rice_data,
+        **data_product_rice,
         product_category=product_category_cereal,
         user=user,
     )
     product_lamb = Product(
-        **lamb_data, product_category=product_category_meat, user=user
+        **data_product_lamb, product_category=product_category_meat, user=user
     )
-    product_sunflower_oil = Product(**sunflower_oil_data, user=user)
+    product_sunflower_oil = Product(**data_product_sunflower_oil, user=user)
     product_apple = Product(
-        **apple_data, user=user, product_category=product_category_fruits
+        **data_product_apple, user=user, product_category=product_category_fruits
     )
-    product_cracker = Product(**cracker_data, user=user)
-    product_eggs = Product(**egg_data, user=user)
-    product_sausages = Product(**sausage_data, user=user)
+    product_cracker = Product(**data_product_cracker, user=user)
+    product_eggs = Product(**data_product_egg, user=user)
+    product_sausages = Product(**data_product_sausage, user=user)
     session_.add_all(
         [
             product_sausages,
@@ -136,9 +145,9 @@ def fill_db(session_):
         value=5,
         unit=unit_ml,
     )
-    dish_rice_with_lamb_oil = Dish(**dish_rice_with_lamb_oil_data, user=user)
-    dish_apple_and_crackers = Dish(**dish_apple_and_crackers_data, user=user)
-    dish_eggs_and_sausages = Dish(**dish_eggs_and_sausages_data, user=user)
+    dish_rice_with_lamb_oil = Dish(**data_dish_rice_with_lamb_oil, user=user)
+    dish_apple_and_crackers = Dish(**data_dish_apple_and_crackers, user=user)
+    dish_eggs_and_sausages = Dish(**data_dish_eggs_and_sausages, user=user)
     session_.add_all(
         [dish_rice_with_lamb_oil, dish_apple_and_crackers, dish_eggs_and_sausages]
     )
@@ -152,14 +161,14 @@ def fill_db(session_):
     portion_cracker = Portion(title="cracker", product=product_cracker, value=50, unit=unit_gr)
     dish_apple_and_crackers_portions = [portion_apple, portion_cracker]
     dish_apple_and_crackers.portions.extend(dish_apple_and_crackers_portions)
-    meal_dinner = Meal(**dinner_meal_data, user=user)
+    meal_dinner = Meal(**data_meal_dinner, user=user)
     meal_dinner_dishes = [dish_rice_with_lamb_oil, dish_apple_and_crackers]
     meal_dinner.dishes.extend(meal_dinner_dishes)
-    mealtime_type_dinner = MealtimeType(**dinner_mealtime_type_data, user=user)
-    mealtime_type_breakfast = MealtimeType(**breakfast_mealtime_type_data, user=user)
+    mealtime_type_dinner = MealtimeType(**data_mealtime_type_dinner, user=user)
+    mealtime_type_breakfast = MealtimeType(**data_mealtime_type_breakfast, user=user)
     session_.add_all([mealtime_type_dinner, mealtime_type_breakfast])
     mealtime_dinner = Mealtime(
-        **dinner_mealtime_data,
+        **data_mealtime_dinner,
         meal=meal_dinner,
         mealtime_type=mealtime_type_dinner,
     )
@@ -167,19 +176,19 @@ def fill_db(session_):
     portion_sausages = Portion(title="sausages", product=product_sausages, value=100, unit=unit_gr)
     dish_eggs_and_sausages_portions = [portion_eggs, portion_sausages]
     dish_eggs_and_sausages.portions.extend(dish_eggs_and_sausages_portions)
-    meal_breakfast = Meal(**breakfast_meal_data, user=user)
+    meal_breakfast = Meal(**data_meal_breakfast, user=user)
     meal_breakfast.dishes.append(dish_eggs_and_sausages)
     mealtime_breakfast = Mealtime(
-        **breakfast_mealtime_data,
+        **data_mealtime_breakfast,
         meal=meal_breakfast,
         mealtime_type=mealtime_type_breakfast,
     )
-    participant_adult_man = Participant(**adult_man_participant_data, user=user)
-    participant_adult_woman = Participant(**adult_woman_participant_data, user=user)
-    participant_child = Participant(**child_participant_data, user=user)
+    participant_adult_man = Participant(**data_participant_adult_man, user=user)
+    participant_adult_woman = Participant(**data_participant_adult_woman, user=user)
+    participant_child = Participant(**data_participant_child, user=user)
     participants = [participant_adult_man, participant_adult_woman, participant_child]
     session_.add_all(participants)
-    trip_first = Trip(**first_trip_data, user=user)
+    trip_first = Trip(**data_trip_first, user=user)
     trip_first_mealtimes = [mealtime_breakfast, mealtime_dinner]
     trip_first.mealtimes.extend(trip_first_mealtimes)
     trip_first.participants.extend(participants)
