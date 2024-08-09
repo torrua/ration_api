@@ -23,7 +23,7 @@ async def read_one(item_id: int, class_orm, session, user: User):
 async def read_all(class_orm, session: AsyncSession, user: User):
     try:
         items = await session.execute(select_stmt(class_orm, user.id))
-        return items.scalars().all()
+        return items.unique().scalars().all()
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
