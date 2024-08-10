@@ -2,7 +2,7 @@ from tests.conftest import *
 
 from tests.data import (
     data_dish_rice_with_lamb_oil,
-    data_meal_dinner,
+    data_meal_dinner_1,
 )
 
 
@@ -27,7 +27,7 @@ class TestDish:
         assert len(self.dish(filled_session).portions) == 3
 
     def test_dish_meals(self, filled_session):
-        assert self.dish(filled_session).meals[0].title == data_meal_dinner.get("title")
+        assert self.dish(filled_session).meals[0].title == data_meal_dinner_1.get("title")
 
     def test_dish_calories(self, filled_session):
         assert self.dish(filled_session).calories == sum(

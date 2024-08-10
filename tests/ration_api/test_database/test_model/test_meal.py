@@ -1,14 +1,12 @@
 from tests.conftest import *
 
-from tests.data import (
-    data_meal_dinner,
-)
+from tests.data import data_meal_dinner_1
 
 
 def test_meal_creation():
-    meal = Meal(**data_meal_dinner)
-    assert meal.title == data_meal_dinner.get("title")
-    assert meal.description == data_meal_dinner.get("description")
+    meal = Meal(**data_meal_dinner_1)
+    assert meal.title == data_meal_dinner_1.get("title")
+    assert meal.description == data_meal_dinner_1.get("description")
 
 
 @pytest.mark.usefixtures("filled_session")
@@ -18,7 +16,7 @@ class TestMeal:
     def meal(filled_session):
         return (
             filled_session.query(Meal)
-            .filter(Meal.title == data_meal_dinner.get("title"))
+            .filter(Meal.title == data_meal_dinner_1.get("title"))
             .first()
         )
 
