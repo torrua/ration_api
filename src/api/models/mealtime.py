@@ -53,6 +53,11 @@ class Mealtime(
     )
 
     @property
+    def default_title(self) -> str:
+        date = f"{' '+self.scheduled_at.strftime('%Y-%m-%d') if self.scheduled_at else ''}"
+        return f"{self.mealtime_type.title}{date}: {self.meal.title}"
+
+    @property
     def portions(self) -> list[Portion]:
         return self.meal.portions
 
